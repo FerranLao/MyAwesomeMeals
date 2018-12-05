@@ -108,3 +108,4 @@ router.post("/editprofile", isLoggedIn("/"), (req, res, next) => {
 });
 
 module.exports = router;
+paco
