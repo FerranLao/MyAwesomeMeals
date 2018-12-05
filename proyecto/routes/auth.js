@@ -6,12 +6,14 @@ const sendMail = require("../email/sendmail");
 const { isLoggedIn } = require("../middlewares/IsLogged");
 const bcrypt = require("bcrypt");
 const bcryptSalt = 10;
+var Recaptcha = require('express-recaptcha').Recaptcha;
+var recaptcha = new Recaptcha(process.env.CAPCHA_KEY,process.env.CAPCHA_Secret)
 
 router.get("/login", (req, res, next) => {
   res.render("auth/login", { message: req.flash("error") });
 });
 
-router.get("/signup", (req, res, next) => {
+router.get("/signup",recaptcha.middleware.render, (req, res, next) => {
   res.render("auth/signup");
 });
 
@@ -32,19 +34,21 @@ router.get("/:id", (req, res, next) => {
   });
 });
 
-router.post("/signup", (req, res, next) => {
+router.post("/signup", recaptcha.middleware.verify,(req, res, next) => {
   const { username, password, email, phone } = req.body;
   if (username === "" || password === "" || email === "") {
     res.render("auth/signup", { message: "Indicate username and password" });
     return;
   }
-
+if(!req.recaptcha.error){
   User.findOne({ username }, "username", (err, user) => {
     if (user !== null) {
       res.render("auth/signup", { message: "The username already exists" });
       return;
     }
 
+
+    
     const salt = bcrypt.genSaltSync(bcryptSalt);
     const hashPass = bcrypt.hashSync(password, salt);
 
@@ -66,7 +70,9 @@ router.post("/signup", (req, res, next) => {
       .catch(err => {
         res.render("auth/signup", { message: "Something went wrong" });
       });
-  });
+  });}else{
+    res.render( res.render("auth/signup", { message: "Invalid reCaptcha" }))
+  }
 });
 
 router.post(
