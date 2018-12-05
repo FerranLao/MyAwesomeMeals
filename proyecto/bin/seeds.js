@@ -1,47 +1,83 @@
-// Seeds file that remove all users and create 2 new users
-
-// To execute this seed, run from the root of the project
-// $ node bin/seeds.js
-
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const User = require("../models/User");
-
+const Recipe = require("../models/Recipes");
 const bcryptSalt = 10;
 
+function encript(password) {
+  const salt = bcrypt.genSaltSync(bcryptSalt);
+  const hashPass = bcrypt.hashSync(password, salt);
+  return hashPass;
+}
 mongoose
-  .connect('mongodb://localhost/proyecto', {useNewUrlParser: true})
+  .connect(
+    "mongodb://localhost/proyecto",
+    { useNewUrlParser: true }
+  )
   .then(x => {
-    console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
+    console.log(
+      `Connected to Mongo! Database name: "${x.connections[0].name}"`
+    );
   })
   .catch(err => {
-    console.error('Error connecting to mongo', err)
+    console.error("Error connecting to mongo", err);
   });
 
 let users = [
   {
-    username: "alice",
-    password: bcrypt.hashSync("alice", bcrypt.genSaltSync(bcryptSalt)),
+    username: "Antonio",
+    password: encript("1"),
+    email: "ninguno@ninguno.es",
+    phone: "4532596234596",
+    meals: ["52771", "52780"],
+    active: true
   },
   {
-    username: "bob",
-    password: bcrypt.hashSync("bob", bcrypt.genSaltSync(bcryptSalt)),
+    username: "Paco",
+    password: encript("supercontraseña"),
+    email: "paco@ninguno.es",
+    phone: "4532596234596",
+    meals: ["52817", "52935"],
+    active: true
+  },
+  {
+    username: "Lola",
+    password: encript("pacopower"),
+    email: "lola@ninguno.es",
+    phone: "4532596234596",
+    meals: ["52793", "52948"],
+    active: true
   }
-]
+];
 
-User.deleteMany()
-.then(() => {
-  return User.create(users)
-})
-.then(usersCreated => {
-  console.log(`${usersCreated.length} users created with the following id:`);
-  console.log(usersCreated.map(u => u._id));
-})
-.then(() => {
-  // Close properly the connection to Mongoose
-  mongoose.disconnect()
-})
-.catch(err => {
-  mongoose.disconnect()
-  throw err
-})
+let recipes = [
+  {
+    idMeal: "52823",
+    name: "Salmon Prawn Risotto",
+    imgPath:
+      "https://www.themealdb.com/images/media/meals/xxrxux1503070723.jpg",
+    type: "Seafood",
+    ingredients: [
+      "butter",
+      "onion",
+      "rice",
+      "white wine",
+      "vegetable stock",
+      "lemon",
+      "King Prawns",
+      "salmon",
+      "asparagus",
+      "black pepper",
+      "Parmesan"
+    ]
+  }
+];
+
+Promise.all([
+  User.create(users).then(() => console.log("User database OK")),
+  Recipe.create(recipes).then(() => console.log("Movies database OK"))
+])
+  .then(() => {
+    mongoose.disconnect();
+  })
+  .catch(e => console.log("Error creating database", e));

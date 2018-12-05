@@ -13,9 +13,9 @@ const sendMail = (to, id) => {
       to, 
       subject: "Account confirmation (MyAwesomeMeals)",
       text: "pepe",
-      html: template({
+      html:template({
           id:id,
-          route:"localhost:3000"
+          route:"http://localhost:3000"
       })
     })
     .then(info => console.log(info)).catch(e=>console.log(e))

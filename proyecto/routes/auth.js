@@ -1,32 +1,40 @@
 const express = require("express");
-const passport = require('passport');
+const passport = require("passport");
 const router = express.Router();
 const User = require("../models/User");
 const sendMail = require("../email/sendmail");
-
-// Bcrypt to encrypt passwords
+const { isLoggedIn } = require("../middlewares/IsLogged");
 const bcrypt = require("bcrypt");
 const bcryptSalt = 10;
 
-
 router.get("/login", (req, res, next) => {
-  res.render("auth/login", { "message": req.flash("error") });
+  res.render("auth/login", { message: req.flash("error") });
 });
-
-router.post("/login", passport.authenticate("local", {
-  successRedirect: "/logged/main",
-  failureRedirect: "/auth/login",
-  failureFlash: true,
-  passReqToCallback: true
-}));
 
 router.get("/signup", (req, res, next) => {
   res.render("auth/signup");
 });
 
+router.get("/editprofile", isLoggedIn("/"), (req, res, next) => {
+  const user = req.user;
+  res.render("auth/useredit", { user });
+});
+
+router.get("/logout", (req, res) => {
+  req.logout();
+  res.redirect("/");
+});
+
+router.get("/:id", (req, res, next) => {
+  const id = req.params.id;
+  User.findOneAndUpdate({ _id: id }, { active: true }).then(() => {
+    res.redirect("/");
+  });
+});
+
 router.post("/signup", (req, res, next) => {
-  const {username,password,email,phone}=req.body
-  if (username === "" || password === ""||email==="") {
+  const { username, password, email, phone } = req.body;
+  if (username === "" || password === "" || email === "") {
     res.render("auth/signup", { message: "Indicate username and password" });
     return;
   }
@@ -47,27 +55,50 @@ router.post("/signup", (req, res, next) => {
       phone
     });
 
-    newUser.save()
-    .then((user) => {
-      sendMail(user.email,user._id)
-      res.redirect("/");
-    })
-    .catch(err => {
-      res.render("auth/signup", { message: "Something went wrong" });
-    })
+    newUser
+      .save()
+      .then(user => {
+        console.log("ok");
+        sendMail(user.email, user._id).then(() => {
+          res.redirect("/");
+        });
+      })
+      .catch(err => {
+        res.render("auth/signup", { message: "Something went wrong" });
+      });
   });
 });
 
-router.get("/logout", (req, res) => {
-  req.logout();
-  res.redirect("/");
-});
+router.post(
+  "/login",
+  passport.authenticate("local", {
+    successRedirect: "/logged/main",
+    failureRedirect: "/auth/login",
+    failureFlash: true,
+    passReqToCallback: true
+  })
+);
 
-router.get("/:id",(req,res,next)=>{
-  const id= req.params.id;
-  User.findOneAndUpdate({_id:id},{active:true}).then(()=> {
-    console.log("hoaskj")
-    res.redirect("/")})
-})
+router.post("/editprofile", isLoggedIn("/"), (req, res, next) => {
+  const { username, password, email, phone } = req.body;
+  let edited = { username, email, phone };
+  const salt = bcrypt.genSaltSync(bcryptSalt);
+  const hashPass = bcrypt.hashSync(password, salt);
+  if (password != "") {
+    edited.password = hashPass;
+  }
+  User.findOne({ username }).then(user => {
+    if (user == null || user.username == req.user.username) {
+      User.findOneAndUpdate({ username: req.user.username }, edited)
+        .then(user => {
+          req.user = user;
+          res.redirect("/logged/main");
+        })
+        .catch((e) => console.log("Error", e));
+    } else {
+      res.render("auth/useredit", { message: "User name already taken" });
+    }
+  });
+});
 
 module.exports = router;
