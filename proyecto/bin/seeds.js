@@ -28,6 +28,7 @@ mongoose
 
 let users = [
   {
+    
     username: "Antonio",
     password: encript("1"),
     email: "ninguno@ninguno.es",
@@ -75,7 +76,8 @@ let recipes = [
     ]
   }
 ];
-
+User.collection.drop();
+Recipe.collection.drop();
 Promise.all([
   User.create(users).then(() => console.log("User database OK")),
   Recipe.create(recipes).then(() => console.log("Movies database OK"))

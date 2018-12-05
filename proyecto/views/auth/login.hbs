@@ -3,7 +3,7 @@
   <form action="/auth/login" method="POST" id="form-container">
     <div class="row">
       <div class="col-25">
-         <label for="username">Username</label>
+        <label for="username">Username</label>
       </div>
       <div class="col-75">
         <input id="username" type="text" name="username" placeholder="JonSnow">
@@ -11,21 +11,21 @@
     </div>
     <div class="row">
       <div class="col-25">
-         <label for="password">Password</label>
+        <label for="password">Password</label>
       </div>
       <div class="col-75">
-       <input id="password" type="password" name="password" placeholder="Your password">
+        <input id="password" type="password" name="password" placeholder="Your password">
       </div>
-       {{#if message }}
-    <div class="error-message">{{ message }}</div>
-  {{/if}}
+      {{#if message }}
+      <div class="error-message">{{ message }}</div>
+      {{/if}}
     </div>
     <div class="row">
       <input type="submit" value="Loggin">
     </div>
-     <p class="account-message">
-    Don't have an account yet?
-    <a href="/auth/signup">Signup</a>
-  </p>
+    <p class="account-message">
+      Don't have an account yet?<a href="/auth/signup">Signup</a><br><br>
+      Forgot your password? <a href="/auth/recover">Click Here</a>
+    </p>
   </form>
 </div>
