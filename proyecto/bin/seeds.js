@@ -1,3 +1,6 @@
+require('dotenv').config();
+
+
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const User = require("../models/User");
@@ -11,7 +14,7 @@ function encript(password) {
 }
 mongoose
   .connect(
-    "mongodb://localhost/proyecto",
+    process.env.DB_URL,
     { useNewUrlParser: true }
   )
   .then(x => {
