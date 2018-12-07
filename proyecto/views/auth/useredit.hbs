@@ -7,7 +7,9 @@
          <label for="username">Username</label>
       </div>
       <div class="col-75">
-        <input id="username" type="text" name="username" placeholder="JonSnow" value="{{user.username}}">
+        <input id="username" type="text" name="username" placeholder="JonSnow" value="{{user.username}}"
+         required pattern="[A-Za-z0-9]{4,25}"
+         title="Only letters and numbers. Min length: 4 characters. Max length: 25 characters">>
       </div>
     </div>
     <div class="row">
@@ -15,7 +17,9 @@
          <label for="password">Password</label>
       </div>
       <div class="col-75">
-       <input id="password" type="password" name="password" placeholder="Your password">
+       <input id="password" type="password" name="password" placeholder="Your password"
+       required pattern="[A-Za-z0-9$!?¿&]{4,25}"
+         title="Can contain letters, numbers and this special caracteres $!??&. Min length: 6 characters. Max length: 40 characters">>
       </div>
     </div>
      <div class="row">
@@ -23,7 +27,9 @@
          <label for="email">Email </label>
       </div>
       <div class="col-75">
-        <input id="email" type="email" name="email" placeholder="pepe@pepe.com" value="{{user.email}}">
+        <input id="email" type="email" name="email" placeholder="pepe@pepe.com" value="{{user.email}}"
+         required 
+         title="insert a valid email">>
       </div>
     </div>
      <div class="row">
@@ -31,7 +37,9 @@
          <label for="phone">Phone number(optional) </label>
       </div>
       <div class="col-75">
-         <input id="phone" type="text" name="phone" placeholder="123456789" value="{{user.phone}}">
+         <input id="phone" type="text" name="phone" placeholder="123456789" value="{{user.phone}}"
+          pattern="[0-9]{9,9}"
+         title="Can contain only 9 numbers">>
       </div>
     </div>
      {{#if message }}
