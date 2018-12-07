@@ -8,7 +8,8 @@ const userSchema = new Schema({
   email:String,
   phone:String,
   meals:Array,
-  active:{type:Boolean,default:false}
+  active:{type:Boolean,default:false},
+  google_Id:String
 }, {
   timestamps: {
     createdAt: 'created_at',
