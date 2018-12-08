@@ -3,7 +3,6 @@ const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
 const User = require("../../models/User");
 
-
 passport.use(
   new GoogleStrategy(
     {
@@ -12,17 +11,22 @@ passport.use(
       callbackURL: "http://localhost:3000/auth/google/callback"
     },
     (accessToken, refreshToken, profile, done) => {
-      console.log(profile);
-      User.findOne({ googleId: profile.id }).then(user => {
-        console.log(user);
-        if (user != null) {
-          return done(err, user);
-        }
-        User.create({ google_Id: profile.id, username: profile.displayName , active:true}).then(user=>{
-            console.log(user)
+      User.findOne({ google_Id: profile.id })
+        .then(user => {
+          console.log(user);
+          if (user != null) {
             return done(null, user);
-        });
-      }).catch(e=>console.log(e));
+          }
+          User.create({
+            google_Id: profile.id,
+            username: profile.displayName,
+            active: true
+          }).then(user => {
+            console.log(user);
+            return done(null, user);
+          });
+        })
+        .catch(e => console.log(e));
     }
   )
 );
