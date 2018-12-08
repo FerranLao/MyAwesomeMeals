@@ -18,7 +18,7 @@ const sendMail = (to, id) => {
           route:"http://localhost:3000"
       })
     })
-    .then(info => console.log(info)).catch(e=>console.log(e))
+    .then(info => console.log("info")).catch(e=>console.log(e))
   }
 
 module.exports = sendMail

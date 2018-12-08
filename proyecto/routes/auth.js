@@ -6,6 +6,7 @@ const sendMail = require("../email/sendmail");
 const { isLoggedIn } = require("../middlewares/IsLogged");
 const bcrypt = require("bcrypt");
 const bcryptSalt = 10;
+const backCheck = require("../public/javascripts/backcheck");
 var Recaptcha = require("express-recaptcha").Recaptcha;
 var recaptcha = new Recaptcha(
   process.env.CAPCHA_KEY,
@@ -43,6 +44,13 @@ router.post("/signup", recaptcha.middleware.verify, (req, res, next) => {
     res.render("auth/signup", { message: "Indicate username and password" });
     return;
   }
+  console.log("continua")
+  if ( !backCheck(username ,"name") || !backCheck(password, "password") || !backCheck(email, "email")|| !backCheck (phone,"phone")) {
+    console.log("no pasa")
+    res.render("auth/signup", { message: "Acces not allowed" });
+    return;
+  }
+  console.log("pasa")
   if (!req.recaptcha.error) {
     User.findOne({ username }, "username", (err, user) => {
       if (user !== null) {
@@ -63,7 +71,6 @@ router.post("/signup", recaptcha.middleware.verify, (req, res, next) => {
       newUser
         .save()
         .then(user => {
-          console.log("ok");
           sendMail(user.email, user._id).then(() => {
             res.redirect("/");
           });
@@ -94,6 +101,10 @@ router.post("/editprofile", isLoggedIn("/"), (req, res, next) => {
   const hashPass = bcrypt.hashSync(password, salt);
   if (password != "") {
     edited.password = hashPass;
+  }
+  if ( !backCheck(username ,"name") || !backCheck(password, "password") || !backCheck(email, "email")|| !backCheck (phone,"phone")) {
+    res.render("auth/signup", { message: "Acces not allowed" });
+    return;
   }
   User.findOne({ username }).then(user => {
     if (user == null || user.username == req.user.username) {
