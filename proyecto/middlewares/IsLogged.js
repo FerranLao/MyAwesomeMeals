@@ -1,6 +1,5 @@
 
 const isLoggedIn = redirectTo => (req,res,next) => {
-  console.log(req.user)
   if(req.user){
     if(req.user.active) return next();
     req.flash('error','YOU HAVE NO ACCESS!');

@@ -59,7 +59,10 @@ router.post(
     });
   }
 );
-
+ 
+router.post("/addmeal",isLoggedIn("/"),(req,res,next)=>{
+  console.log(req.body)
+})
 
 
 module.exports = router;
