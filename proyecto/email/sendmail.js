@@ -12,7 +12,7 @@ const sendMail = (to, id) => {
       from:'MyAwesomeMeals@gmail.com',
       to, 
       subject: "Account confirmation (MyAwesomeMeals)",
-      text: "pepe",
+      text: "Confirmation",
       html:template({
           id:id,
           route:"http://localhost:3000"
@@ -21,4 +21,14 @@ const sendMail = (to, id) => {
     .then(info => console.log("info")).catch(e=>console.log(e))
   }
 
-module.exports = sendMail
+  const recoveryMail = (to, id) => {
+    return transporter.sendMail({
+      from:'MyAwesomeMeals@gmail.com',
+      to, 
+      subject: "Recovery email (MyAwesomeMeals)",
+      text: "Recover",
+      html:`<a href="http://localhost:3000/auth/recover/${id}">Recover</a>`
+    })
+    .then(info => console.log(info)).catch(e=>console.log(e))
+  }
+module.exports = {sendMail,recoveryMail}

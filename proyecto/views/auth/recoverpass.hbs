@@ -1,0 +1,25 @@
+
+<h2>Become a member!</h2>
+<div class="container">
+  <form action="/auth/recover/{{id}}" method="POST" id="form-container">
+       <div class="row">
+      <div class="col-25">
+         <label for="password">Password</label>
+      </div>
+      <div class="col-75 form-group">
+       <input id="password" class="form-control" type="password" name="password" placeholder="Your password">
+      </div>
+    </div>
+       </div>
+     {{#if message }}
+    <div class="error-message">{{ message }}</div>
+  {{/if}}
+  <div class="g-recaptcha" data-sitekey="6Le16X4UAAAAAFQttExGYbDxFGwkDppuG-qLk0NU"></div>
+    <div class="row">
+      <input type="submit" value="Create account">
+    </div>
+  </form>
+</div>
+
+<script src="../javascripts/password.min.js"></script>
+<script src="../javascripts/passwordStrength.js"></script>
