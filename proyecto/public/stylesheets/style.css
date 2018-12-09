@@ -1,5 +1,5 @@
 body {
-  padding: 50px;
+  margin: 0;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
 
 a {
@@ -127,5 +127,16 @@ input[type=submit]:hover {
   background-color: #ccc;
   width: 100%;
   position: relative; }
+
+.target {
+  border: 1px solid red;
+  width: 22%; }
+  .target img {
+    width: 100%; }
+
+.apiRecipes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around; }
 
 /*# sourceMappingURL=style.css.map */
