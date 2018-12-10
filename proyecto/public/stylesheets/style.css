@@ -114,6 +114,7 @@ input:valid, textarea:valid {
 
 input:invalid, textarea:invalid {
   border-color: red; }
+
 .pass-colorbar {
   height: 3px;
   background-image: url(../images/passwordstrength.jpg);
