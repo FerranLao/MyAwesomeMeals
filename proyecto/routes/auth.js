@@ -6,7 +6,7 @@ const { sendMail, recoveryMail } = require("../email/sendmail");
 const { isLoggedIn } = require("../middlewares/IsLogged");
 const bcrypt = require("bcrypt");
 const bcryptSalt = 10;
-const backCheck = require("../public/javascripts/backcheck");
+const backCheck = require("../middlewares/backcheck");
 var Recaptcha = require("express-recaptcha").Recaptcha;
 var recaptcha = new Recaptcha(
   process.env.CAPCHA_KEY,

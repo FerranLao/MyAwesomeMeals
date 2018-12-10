@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Recipe = require("../models/Recipes");
+const User = require("../models/User");
 const { isLoggedIn } = require("../middlewares/IsLogged");
 const uploadCloud = require("../multer/cloudinary.js");
 
@@ -18,11 +19,14 @@ router.get("/newmeal", isLoggedIn("/"), (req, res, next) => {
 });
 
 router.get("/allmeals", isLoggedIn("/"), (req, res, next) => {
-  Recipe.find()
-    .then(recipes => {
-      res.render("logged/allplatos", { recipes });
-    })
-    .catch(e => console.log("Error", e));
+  let recipes = [];
+  req.user.meals.forEach(e => {
+    Recipe.findById(e).then(recipe => {
+      recipes.push(recipe);
+    });
+  });
+  console.log(recipes);
+  res.render("logged/allplatos", { recipes });
 });
 
 router.get("/meals/:id", isLoggedIn("/"), (req, res, next) => {
@@ -41,11 +45,18 @@ router.get("/lista", isLoggedIn("/"), (req, res, next) => {
   res.render("logged/lista");
 });
 
+router.get("/getrecipes", isLoggedIn("/"), (req, res, next) => {
+  console.log("hola");
+  res.render("logged/getrecipes");
+});
+
 router.post(
   "/newmeal",
   [isLoggedIn("/"), uploadCloud.single("photo")],
   (req, res, next) => {
-    const { name } = req.body;
+    
+    const { name, ingredient } = req.body;
+    const ingredients = ingredient.filter(Boolean)
     let imgPath;
     if (req.file) {
       imgPath = req.file.url;
@@ -53,7 +64,7 @@ router.post(
       imgPath =
         "http://res.cloudinary.com/aaronreina/image/upload/v1543767688/MyAwesomeMeals/my-file-name.jpg";
     }
-    Recipe.create({ name, imgPath }).then(() => {
+    Recipe.create({ name, imgPath ,ingredients }).then(() => {
       res.redirect("/");
     });
   }
@@ -61,14 +72,32 @@ router.post(
 
 //prueba post axios
 router.post("/addmeal", isLoggedIn("/"), (req, res, next) => {
-  console.log(req.body);
   const { name, imgPath, ingredients } = req.body;
   Recipe.findOne({ name }).then(recipe => {
-    console.log(recipe)
     if (recipe == null) {
-      Recipe.create({ name, imgPath, ingredients }).then(() =>
-        console.log("recipe added")
-      );
+      Recipe.create({ name, imgPath, ingredients }).then(recipe => {
+        console.log("recipe added");
+        const _id = req.user._id;
+        const recipeId = recipe._id;
+        User.findById(_id).then(user => {
+          if (user.meals.indexOf(recipeId) == -1) {
+            User.findOneAndUpdate({ _id }, { $push: { meals: recipeId } });
+          }
+        });
+      });
+    } else {
+      const _id = req.user._id;
+      const recipeId = recipe._id;
+      User.findById(_id).then(user => {
+        if (user.meals.indexOf(recipeId) == -1) {
+          console.log("entra");
+          User.findOneAndUpdate({ _id }, { $push: { meals: recipeId } }).then(
+            e => console.log(e)
+          );
+        } else {
+          console.log("already exist");
+        }
+      });
     }
   });
 });

@@ -8,6 +8,7 @@ const userSchema = new Schema({
   email:String,
   phone:String,
   meals:Array,
+  menu:Array,
   active:{type:Boolean,default:false},
   google_Id:String
 }, {
