@@ -27,9 +27,9 @@ const getMeals = () => {
       html += '<div class="target">';
       html += `<h3>${el.recipe.label}</h3>`;
       html += `<img src="${el.recipe.image}">`;
-      el.recipe.ingredients.forEach(e => {
-        html += `<p>${e.text}</p>`;
-      });
+      // el.recipe.ingredients.forEach(e => {
+      //   html += `<p>${e.text}</p>`;
+      // });
       html += "<button class='seeRecipe'>See this recipe</button>";
       html += "</div>";
     });
