@@ -1,7 +1,8 @@
 const passport = require('passport');
 
 require('./serializers');
-require('./localStrategy');
+require('./Strategies/localStrategy');
+require("./Strategies/google")
 
 module.exports = (app)  => {
   app.use(passport.initialize());

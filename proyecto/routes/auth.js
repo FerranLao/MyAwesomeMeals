@@ -44,6 +44,19 @@ router.get("/recover/:id", (req, res, next) => {
   }
   res.render("auth/recoverpass", { id });
 });
+router.get(
+  "/google",
+  passport.authenticate("google", {
+    scope: ["https://www.googleapis.com/auth/plus.login"]
+  })
+);
+
+router.get(
+  "/google/callback",
+  passport.authenticate("google", { failureRedirect: "/login" }),
+  (req, res) => res.redirect("/logged/main")
+);
+
 router.get("/:id", (req, res, next) => {
   const id = req.params.id;
   User.findOneAndUpdate({ _id: id }, { active: true }).then(() => {
@@ -179,5 +192,7 @@ router.post("/recover/:id", (req, res, next) => {
     { recovery: "", password: hashPass }
   ).then(() => res.redirect("/auth/login"));
 });
+
+
 
 module.exports = router;

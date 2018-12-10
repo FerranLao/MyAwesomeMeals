@@ -4,7 +4,6 @@ const Recipe = require("../models/Recipes");
 const { isLoggedIn } = require("../middlewares/IsLogged");
 const uploadCloud = require("../multer/cloudinary.js");
 
-
 router.get("/main", isLoggedIn("/"), (req, res, next) => {
   const user = req.user;
   res.render("logged/main", { user });
@@ -19,7 +18,7 @@ router.get("/newmeal", isLoggedIn("/"), (req, res, next) => {
 });
 
 router.get("/allmeals", isLoggedIn("/"), (req, res, next) => {
-    Recipe.find()
+  Recipe.find()
     .then(recipes => {
       res.render("logged/allplatos", { recipes });
     })
@@ -60,5 +59,18 @@ router.post(
   }
 );
 
+//prueba post axios
+router.post("/addmeal", isLoggedIn("/"), (req, res, next) => {
+  console.log(req.body);
+  const { name, imgPath, ingredients } = req.body;
+  Recipe.findOne({ name }).then(recipe => {
+    console.log(recipe)
+    if (recipe == null) {
+      Recipe.create({ name, imgPath, ingredients }).then(() =>
+        console.log("recipe added")
+      );
+    }
+  });
+});
 
 module.exports = router;

@@ -1,5 +1,5 @@
 body {
-  padding: 50px;
+  margin: 0;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
@@ -157,3 +157,15 @@ input:invalid, textarea:invalid {
     width: 100%;
     position: relative;
   }
+.target{
+  border: 1px solid red;
+  width: 20%;
+  img{
+    width: 100%
+  }
+}
+.apiRecipes{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
