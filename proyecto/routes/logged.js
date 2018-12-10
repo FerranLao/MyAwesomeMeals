@@ -25,8 +25,11 @@ router.get("/allmeals", isLoggedIn("/"), (req, res, next) => {
       recipes.push(recipe);
     });
   });
-  console.log(recipes);
-  res.render("logged/allplatos", { recipes });
+  //guarrada
+  setTimeout(function() {
+    console.log(recipes);
+    res.render("logged/allplatos", { recipes });
+  }, 50);
 });
 
 router.get("/meals/:id", isLoggedIn("/"), (req, res, next) => {
@@ -54,18 +57,28 @@ router.post(
   "/newmeal",
   [isLoggedIn("/"), uploadCloud.single("photo")],
   (req, res, next) => {
-    
     const { name, ingredient } = req.body;
-    const ingredients = ingredient.filter(Boolean)
-    let imgPath;
-    if (req.file) {
-      imgPath = req.file.url;
-    } else {
-      imgPath =
-        "http://res.cloudinary.com/aaronreina/image/upload/v1543767688/MyAwesomeMeals/my-file-name.jpg";
-    }
-    Recipe.create({ name, imgPath ,ingredients }).then(() => {
-      res.redirect("/");
+    Recipe.findOne({ name }).then(recipe => {
+      if (recipe == null) {
+        const ingredients = ingredient.filter(Boolean);
+        let imgPath;
+        if (req.file) {
+          imgPath = req.file.url;
+        } else {
+          imgPath =
+            "http://res.cloudinary.com/aaronreina/image/upload/v1543767688/MyAwesomeMeals/my-file-name.jpg";
+        }
+        Recipe.create({ name, imgPath, ingredients }).then(recipe => {
+          console.log("eii", recipe._id);
+          const _id = req.user._id;
+          const recipeId = recipe._id;
+          User.findOneAndUpdate({ _id }, { $push: { meals: recipeId } }).then(
+            () => res.redirect("/")
+          );
+        });
+      } else {
+        res.render("logged/crearplato", { message: "Name already taken" });
+      }
     });
   }
 );
@@ -75,13 +88,18 @@ router.post("/addmeal", isLoggedIn("/"), (req, res, next) => {
   const { name, imgPath, ingredients } = req.body;
   Recipe.findOne({ name }).then(recipe => {
     if (recipe == null) {
-      Recipe.create({ name, imgPath, ingredients }).then(recipe => {
+      console.log();
+      Recipe.create({ name, imgPath, ingredients }).then(recipes => {
         console.log("recipe added");
         const _id = req.user._id;
-        const recipeId = recipe._id;
+        const recipeId = recipes._id;
         User.findById(_id).then(user => {
-          if (user.meals.indexOf(recipeId) == -1) {
-            User.findOneAndUpdate({ _id }, { $push: { meals: recipeId } });
+          console.log(user.meals);
+          if (req.user.meals.indexOf(recipeId) == -1) {
+            User.findByIdAndUpdate(
+              { _id },
+              { $push: { meals: recipeId } }
+            ).then(e => console.log(e.meals));
           }
         });
       });
@@ -90,7 +108,6 @@ router.post("/addmeal", isLoggedIn("/"), (req, res, next) => {
       const recipeId = recipe._id;
       User.findById(_id).then(user => {
         if (user.meals.indexOf(recipeId) == -1) {
-          console.log("entra");
           User.findOneAndUpdate({ _id }, { $push: { meals: recipeId } }).then(
             e => console.log(e)
           );
@@ -99,6 +116,17 @@ router.post("/addmeal", isLoggedIn("/"), (req, res, next) => {
         }
       });
     }
+  });
+});
+
+router.post("/recipeRemove", isLoggedIn("/"), (req, res, next) => {
+  const { name } = req.body;
+  const { _id } = req.user;
+  Recipe.findOne({ name }).then(recipe => {
+    const id = recipe._id;
+    User.findByIdAndUpdate({ _id }, { $pullAll: { meals: [id] } }).then(() =>
+      console.log("done")
+    );
   });
 });
 

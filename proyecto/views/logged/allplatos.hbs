@@ -1,5 +1,9 @@
-<h1>Users Recipes</h1>
+<h1>Your Recipes</h1>
 {{#each recipes}}
-<p>{{this.name}}</p>
-<img src="{{this.imgPath}}" height="200px">
+<div class="recipe">
+    <p>{{this.name}}</p>
+    <img src="{{this.imgPath}}" height="200px">
+    <button class="recipeRemove">Remove this recipe</button>
+</div>
 {{/each}}
+<script src="../javascripts/allplatos.js"></script>

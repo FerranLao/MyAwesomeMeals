@@ -7,4 +7,3 @@ document.querySelector(".ingredientbutton").addEventListener("click", e => {
   console.log(input2)
   input.appendChild(input2)
 });
-var a  
