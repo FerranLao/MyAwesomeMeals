@@ -6,9 +6,10 @@
       <div class="col-25">
          <label for="password">Password</label>
       </div>
-      <div class="col-75 form-group">
-       <input id="password" class="form-control" type="password" name="password" placeholder="Your password">
-      </div>
+      <div class="col-75">
+       <input id="password" type="password" name="password" placeholder="Your password"
+        required pattern="[A-Za-z0-9$!?¿&.,_-]{4,25}"
+         title="Can contain letters, numbers and this special caracteres $!?¿&.,_-. Min length: 4 characters. Max length: 25 characters"/>
     </div>
        </div>
      {{#if message }}
@@ -21,5 +22,5 @@
   </form>
 </div>
 
-<script src="../javascripts/password.min.js"></script>
-<script src="../javascripts/passwordStrength.js"></script>
+<script src="/javascripts/password.min.js"></script>
+<script src="/javascripts/passwordStrength.js"></script>

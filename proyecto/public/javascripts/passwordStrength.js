@@ -1,3 +1,4 @@
+console.log('entra')
 $('#password').password({
     shortPass: 'The password is too short',
     badPass: 'Weak; try combining letters & numbers',
