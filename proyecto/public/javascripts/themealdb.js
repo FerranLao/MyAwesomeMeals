@@ -5,9 +5,12 @@ let page = 1;
 const urlMaker = () => {
   let max = page * 10;
   let min = max - 10;
-  const mainIngredient = document.querySelector(".mainingredient").value;
+  let mainIngredient = document.querySelector(".mainingredient").value;
   const diet = document.querySelector(".diet").value;
   const calories = document.querySelector(".calories").value;
+  if (calories == "" && mainIngredient == "" && diet == "none") {
+    mainIngredient = "sugar";
+  }
   let baseURL = `https://api.edamam.com/search?q=${mainIngredient}&app_id=${EDAMAN_ID}&app_key=${EDAMAN_KEY}`;
   if (diet != "none") {
     baseURL += `&diet=${diet}`;
@@ -22,6 +25,7 @@ const urlMaker = () => {
 const getMeals = () => {
   let API_URL = urlMaker();
   return axios.get(API_URL).then(res => {
+    console.log(API_URL)
     let html = "";
     res.data.hits.forEach(el => {
       html += '<div class="target">';
@@ -49,8 +53,8 @@ document.querySelector(".Search").addEventListener("click", getMeals);
 const randomMeal = () => {
   let API_URL = urlMaker();
   API_URL += "&to=50";
-  console.log(API_URL);
   return axios.get(API_URL).then(res => {
+    console.log(res)
     let html = "";
     const recipe = res.data.hits;
     const random = Math.floor(Math.random() * recipe.length);

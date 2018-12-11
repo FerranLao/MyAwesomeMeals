@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const User = require("../models/User");
 const Recipe = require("../models/Recipes");
+const Ingredients = require("../models/Ingredients")
 const bcryptSalt = 10;
 
 function encript(password) {
@@ -76,6 +77,7 @@ let recipes = [
     ]
   }
 ];
+
 User.collection.drop();
 Recipe.collection.drop();
 Promise.all([
