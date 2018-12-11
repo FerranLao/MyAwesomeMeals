@@ -112,9 +112,7 @@ router.post("/recipeRemove", isLoggedIn("/"), (req, res, next) => {
   const { _id } = req.user;
   Recipe.findOne({ name }).then(recipe => {
     const id = recipe._id;
-    User.findByIdAndUpdate({ _id }, { $pullAll: { meals: [id] } }).then(() =>
-      console.log("done")
-    );
+    Favorite.findOneAndDelete({users:_id,recipes:id}).then(e=>console.log(e))
   });
 });
 
