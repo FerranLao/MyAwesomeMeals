@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Recipe = require("../models/Recipes");
 const User = require("../models/User");
+const Favorite = require("../models/Favoritos");
 const { isLoggedIn } = require("../middlewares/IsLogged");
 const uploadCloud = require("../multer/cloudinary.js");
 
@@ -19,17 +20,16 @@ router.get("/newmeal", isLoggedIn("/"), (req, res, next) => {
 });
 
 router.get("/allmeals", isLoggedIn("/"), (req, res, next) => {
-  let recipes = [];
-  req.user.meals.forEach(e => {
-    Recipe.findById(e).then(recipe => {
-      recipes.push(recipe);
+  const userId = req.user._id;
+  Favorite.find({ users: userId })
+    .populate("recipes")
+    .then(fav => {
+      let recipes = []
+      fav.forEach(e => {
+        recipes.push(e.recipes)        
+      });
+      res.render("logged/allplatos", { recipes })
     });
-  });
-  //guarrada
-  setTimeout(function() {
-    console.log(recipes);
-    res.render("logged/allplatos", { recipes });
-  }, 50);
 });
 
 router.get("/meals/:id", isLoggedIn("/"), (req, res, next) => {
@@ -93,28 +93,16 @@ router.post("/addmeal", isLoggedIn("/"), (req, res, next) => {
         console.log("recipe added");
         const _id = req.user._id;
         const recipeId = recipes._id;
-        User.findById(_id).then(user => {
-          console.log(user.meals);
-          if (req.user.meals.indexOf(recipeId) == -1) {
-            User.findByIdAndUpdate(
-              { _id },
-              { $push: { meals: recipeId } }
-            ).then(e => console.log(e.meals));
-          }
-        });
+        Favorite.create({ users: _id, recipes: recipeId }).then(e =>
+          console.log(e)
+        );
       });
     } else {
       const _id = req.user._id;
       const recipeId = recipe._id;
-      User.findById(_id).then(user => {
-        if (user.meals.indexOf(recipeId) == -1) {
-          User.findOneAndUpdate({ _id }, { $push: { meals: recipeId } }).then(
-            e => console.log(e)
-          );
-        } else {
-          console.log("already exist");
-        }
-      });
+      Favorite.create({ users: _id, recipes: recipeId }).then(e =>
+        console.log(e)
+      );
     }
   });
 });

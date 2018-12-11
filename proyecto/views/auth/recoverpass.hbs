@@ -2,12 +2,14 @@
 <h2>Become a member!</h2>
 <div class="container">
   <form action="/auth/recover/{{id}}" method="POST" id="form-container">
-       <div class="row">
+      <div class="row">
       <div class="col-25">
          <label for="password">Password</label>
       </div>
-      <div class="col-75 form-group">
-       <input id="password" class="form-control" type="password" name="password" placeholder="Your password">
+      <div class="col-75">
+       <input id="password" type="password" name="password" placeholder="Your password"
+        required pattern="[A-Za-z0-9$!?¿&.,_-]{4,25}"
+         title="Can contain letters, numbers and this special caracteres $!?¿&.,_-. Min length: 6 characters. Max length: 40 characters">
       </div>
     </div>
        </div>
