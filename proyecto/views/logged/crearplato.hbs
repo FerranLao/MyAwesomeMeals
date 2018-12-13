@@ -3,18 +3,17 @@
 <form action="/logged/newmeal" method="POST" id="form-container" enctype="multipart/form-data">
   <label for="name">Recipe name</label>
   <input id="name" type="text" name="name" placeholder="JonSnow">
-
   <br><br>
-
   <label for="photo">Add a photo</label>
   <input id="photo" type="file" name="photo" placeholder="Your photo">
   <br>
   <label for="ingredients">Ingredients</label>
-  <div class="ingredientsadd">
-    <input name="ingredient" placeholder="Add ingredient">
-  </div>
-  <button class="ingredientbutton">more</button>
+  <input class="ingredientsadd" name="ingredient" placeholder="Search ingredient">
+  <button class="seachingredient">Search Ingredients</button>
   <button>Add Ingredients</button>
-
+  <div class="ingredients">
+  </div>
+  <div class="ingredientList">
+  </div>
 </form>
 <script src="../javascripts/newplate.js"></script>

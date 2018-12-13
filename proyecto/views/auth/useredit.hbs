@@ -9,7 +9,7 @@
       <div class="col-75">
         <input id="username" type="text" name="username" placeholder="JonSnow" value="{{user.username}}"
          required pattern="[A-Za-z0-9]{4,25}"
-         title="Only letters and numbers. Min length: 4 characters. Max length: 25 characters">>
+         title="Only letters and numbers. Min length: 4 characters. Max length: 25 characters">
       </div>
     </div>
     <div class="row">
@@ -19,7 +19,7 @@
       <div class="col-75">
        <input id="password" type="password" name="password" placeholder="Your password"
        required pattern="[A-Za-z0-9$!?¿&]{4,25}"
-         title="Can contain letters, numbers and this special caracteres $!??&. Min length: 6 characters. Max length: 40 characters">>
+         title="Can contain letters, numbers and this special caracteres $!??&. Min length: 6 characters. Max length: 40 characters">
       </div>
     </div>
      <div class="row">
@@ -29,7 +29,7 @@
       <div class="col-75">
         <input id="email" type="email" name="email" placeholder="pepe@pepe.com" value="{{user.email}}"
          required 
-         title="insert a valid email">>
+         title="insert a valid email">
       </div>
     </div>
      <div class="row">
@@ -39,7 +39,7 @@
       <div class="col-75">
          <input id="phone" type="text" name="phone" placeholder="123456789" value="{{user.phone}}"
           pattern="[0-9]{9,9}"
-         title="Can contain only 9 numbers">>
+         title="Can contain only 9 numbers">
       </div>
     </div>
      {{#if message }}
@@ -54,3 +54,5 @@
   </p>
   </form>
 </div>
+<script src="/javascripts/password.min.js"></script>
+<script src="/javascripts/passwordStrength.js"></script>
