@@ -5,7 +5,8 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const User = require("../models/User");
 const Recipe = require("../models/Recipes");
-const Ingredients = require("../models/Ingredients")
+const Ingredients = require("../models/Ingredients");
+const ingredients = require('./recipes.json');
 const bcryptSalt = 10;
 
 function encript(password) {
@@ -78,11 +79,23 @@ let recipes = [
   }
 ];
 
+let ingredientok = [];
+ingredients.forEach(e => {
+  const recipe = {
+    name: e.strIngredient,
+    imgPath: `https://www.themealdb.com/images/ingredients/${
+      e.strIngredient
+    }-Small.png`
+  };
+  ingredientok.push(recipe);
+});
+Ingredients.collection.drop();
 User.collection.drop();
 Recipe.collection.drop();
 Promise.all([
   User.create(users).then(() => console.log("User database OK")),
-  Recipe.create(recipes).then(() => console.log("Movies database OK"))
+  Recipe.create(recipes).then(() => console.log("Movies database OK")),
+  Ingredients.create(ingredientok).then((e) =>console.log(e.length+"Ingredients database OK"))
 ])
   .then(() => {
     mongoose.disconnect();

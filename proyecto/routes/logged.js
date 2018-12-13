@@ -3,6 +3,8 @@ const router = express.Router();
 const Recipe = require("../models/Recipes");
 const User = require("../models/User");
 const Favorite = require("../models/Favoritos");
+const Ingredients = require("../models/Ingredients");
+const IngredientsList = require("../models/IngredientsList")
 const { isLoggedIn } = require("../middlewares/IsLogged");
 const uploadCloud = require("../multer/cloudinary.js");
 
@@ -24,11 +26,11 @@ router.get("/allmeals", isLoggedIn("/"), (req, res, next) => {
   Favorite.find({ users: userId })
     .populate("recipes")
     .then(fav => {
-      let recipes = []
+      let recipes = [];
       fav.forEach(e => {
-        recipes.push(e.recipes)        
+        recipes.push(e.recipes);
       });
-      res.render("logged/allplatos", { recipes })
+      res.render("logged/allplatos", { recipes });
     });
 });
 
@@ -51,6 +53,10 @@ router.get("/lista", isLoggedIn("/"), (req, res, next) => {
 router.get("/getrecipes", isLoggedIn("/"), (req, res, next) => {
   console.log("hola");
   res.render("logged/getrecipes");
+});
+
+router.get("/getIngredients", isLoggedIn("/"), (req, res, next) => {
+  Ingredients.find().then(ing => res.send({ ing }));
 });
 
 router.post(
@@ -83,7 +89,7 @@ router.post(
   }
 );
 
-//prueba post axios
+//post axios
 router.post("/addmeal", isLoggedIn("/"), (req, res, next) => {
   const { name, imgPath, ingredients } = req.body;
   Recipe.findOne({ name }).then(recipe => {
@@ -112,8 +118,18 @@ router.post("/recipeRemove", isLoggedIn("/"), (req, res, next) => {
   const { _id } = req.user;
   Recipe.findOne({ name }).then(recipe => {
     const id = recipe._id;
-    Favorite.findOneAndDelete({users:_id,recipes:id}).then(e=>console.log(e))
+    Favorite.findOneAndDelete({ users: _id, recipes: id }).then(e =>
+      console.log(e)
+    );
   });
 });
+
+router.post("/addingredient",isLoggedIn("/"),(req,res,next)=>{
+  const {name} = req.body
+  Ingredients.findOne({name}).then(ing=>{
+    const {_id}=ing  
+    IngredientsList.find({ingredient:_id})
+  })
+})
 
 module.exports = router;
