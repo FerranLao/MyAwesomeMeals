@@ -8,7 +8,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_LOG_ID,
       clientSecret: process.env.GOOGLE_LOG_SECRET,
-      callbackURL: "http://localhost:3000/auth/google/callback"
+      callbackURL: "https://myawesomemeals.herokuapp.com/auth/google/callback"
     },
     (accessToken, refreshToken, profile, done) => {
       User.findOne({ google_Id: profile.id })

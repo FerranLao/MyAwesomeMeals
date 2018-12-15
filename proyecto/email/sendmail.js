@@ -15,7 +15,7 @@ const sendMail = (to, id) => {
       text: "Confirmation",
       html:template({
           id:id,
-          route:"http://localhost:3000"
+          route:"https://myawesomemeals.herokuapp.com"
       })
     })
     .then(info => console.log("info")).catch(e=>console.log(e))
@@ -27,7 +27,7 @@ const sendMail = (to, id) => {
       to, 
       subject: "Recovery email (MyAwesomeMeals)",
       text: "Recover",
-      html:`<a href="http://localhost:3000/auth/recover/${id}">Recover</a>`
+      html:`<a href="https://myawesomemeals.herokuapp.com/auth/recover/${id}">Recover</a>`
     })
     .then(info => console.log(info)).catch(e=>console.log(e))
   }
