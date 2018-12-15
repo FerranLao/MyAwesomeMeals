@@ -3,6 +3,9 @@
 <div class="recipe">
     <p>{{this.name}}</p>
     <img src="{{this.imgPath}}" height="200px">
+    {{#each this.ingredients}}
+    <p>{{this}}</p>
+    {{/each}}
     <button class="recipeRemove">Remove this recipe</button>
 </div>
 {{/each}}
