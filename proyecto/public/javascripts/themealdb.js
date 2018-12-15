@@ -118,7 +118,7 @@ const addRecipeButton = () => {
     document.querySelectorAll(".ingredientsli").forEach(e => {
       ingredients.push(e.innerText);
     });
-    axios.post("http://localhost:3000/logged/addmeal", {
+    axios.post("/logged/addmeal", {
       name,
       imgPath,
       ingredients
