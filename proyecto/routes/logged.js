@@ -35,6 +35,7 @@ router.get("/allmeals", isLoggedIn("/"), (req, res, next) => {
       fav.forEach(e => {
         recipes.push(e.recipes);
       });
+      console.log(recipes)
       res.render("logged/allplatos", { recipes });
     });
 });
