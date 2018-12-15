@@ -93,7 +93,7 @@ const buttonAdder = () => {
           html += `<img class="recipeimage" src="${recipe.image}">`;
           html += `<ul><h3>Ingredients</h3>`;
           recipe.ingredients.forEach(e => {
-            html += `<li>${e.text}</li>`;
+            html += `<li class="ingredientsli">${e.text}</li>`;
           });
           html += `</ul>`;
           html += `<p>Calories:${recipe.calories}</p>`;
@@ -115,7 +115,7 @@ const addRecipeButton = () => {
     const name = document.querySelector(".recipelabel").innerText;
     const imgPath = document.querySelector(".recipeimage").src;
     let ingredients = [];
-    document.querySelectorAll("li").forEach(e => {
+    document.querySelectorAll(".ingredientsli").forEach(e => {
       ingredients.push(e.innerText);
     });
     axios.post("http://localhost:3000/logged/addmeal", {
