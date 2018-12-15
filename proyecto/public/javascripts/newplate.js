@@ -1,45 +1,37 @@
-var ingredientarr=[]
+var ingredientarr = [];
 
 document.querySelector(".seachingredient").addEventListener("click", e => {
-  e.preventDefault();
   const input = document.querySelector(".ingredientsadd").value;
-  axios.get("/logged/getIngredients").then(ing => {
-    let match = [];
+  axios.post("/logged/getIngredients", { input }).then(ing => {
+    console.log(ing.data.final);
     let html = document.querySelector(".ingredients");
-    ing.data.ing.forEach(e => {
-      if (e.name == input) {
-        match.push(e);
-      }
-    });
     html.innerHTML = "";
-    match.forEach(el => {
-      html.innerHTML += `<p>${el.name}</p>`;
-      html.innerHTML += `<img src="${el.imgPath}">`;
-      html.innerHTML += `<button class="addingredient">Add Ingredient</button>`;
+    ing.data.final.forEach(el => {
+      html.innerHTML += `<div><p>${el.name}</p><img src="${
+        el.imgPath
+      }"><button class="addingredient">Add Ingredient</button></div>`;
     });
     document.querySelectorAll(".addingredient").forEach(buttons => {
       buttons.addEventListener("click", e => {
         e.preventDefault();
-        let ingHTML=document.querySelector(".ingredientList")
-        console.log(ingHTML)
-
+        let ingHTML = document.querySelector(".ingredientList");
+        ingHTML.innerHTML = "";
         const name = e.target.parentNode.querySelector("p").innerText;
-        ingredientarr.push(name)
-        console.log(ingredientarr)
-        ingredientarr.forEach(e=>{
-          ingHTML.innerHTML+=`<p>${name}</p>`          
-        })
+        console.log(name);
+        ingredientarr.push(name);
+        console.log(ingredientarr);
+        ingredientarr.forEach(e => {
+          ingHTML.innerHTML += `<p>${e}</p>`;
+        });
       });
     });
   });
 });
+document.querySelector(".createRecipe").addEventListener("click", e => {
+  console.log(window.location.pathname);
+  axios.post(window.location.pathname, { ingredientarr }).then(() => {
+    ingredientarr = [];
+    window.location.replace("/logged/allmeals");
+  });
+});
 
-//añadir inputs
-// document.querySelector(".ingredientbutton").addEventListener("click", e => {
-//   e.preventDefault();
-//   let input = document.querySelector(".ingredientsadd");
-//   const input2 = document.createElement( 'input' )
-//   input2.setAttribute("name","ingredient")
-//   input2.setAttribute("placeholder","Add ingredient")
-//   input.appendChild(input2)
-// });

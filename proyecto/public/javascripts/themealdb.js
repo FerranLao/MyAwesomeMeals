@@ -73,13 +73,20 @@ document.querySelector(".Random").addEventListener("click", randomMeal);
 
 const buttonAdder = () => {
   document.querySelectorAll(".seeRecipe").forEach(e => {
-    e.addEventListener("click", function() {
-      const recipeName = this.parentNode.querySelector("h3").innerText;
+    e.addEventListener("click", function(e) {
+      const recipeName = e.target.parentNode.querySelector("h3").innerText;
+
       const API_URL = `https://api.edamam.com/search?q=${recipeName}&app_id=${EDAMAN_ID}&app_key=${EDAMAN_KEY}`;
       axios
         .get(API_URL)
         .then(res => {
-          const recipe = res.data.hits[0].recipe;
+          console.log(res)
+          let recipe ;
+          res.data.hits.forEach(e=>{
+            if(e.recipe.label==recipeName){
+              recipe=e.recipe
+            }
+          })
           let html = "";
           html += `<div class="oneRecipe">`;
           html += `<h2 class="recipelabel">${recipe.label}</h2>`;
