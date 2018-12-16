@@ -35,7 +35,7 @@ router.get("/allmeals", isLoggedIn("/"), (req, res, next) => {
       fav.forEach(e => {
         recipes.push(e.recipes);
       });
-      console.log(recipes)
+      console.log(recipes);
       res.render("logged/allplatos", { recipes });
     });
 });
@@ -61,12 +61,25 @@ router.get("/getrecipes", isLoggedIn("/"), (req, res, next) => {
   res.render("logged/getrecipes");
 });
 
+router.get("/standarize/:id", isLoggedIn("/"), (req, res, next) => {
+  console.log("kasjdklasjd");
+  const id = req.params.id;
+  Favorite.findById(id)
+    .populate("recipes")
+    .then(fav => {
+      console.log(fav);
+      const recipe = fav.recipes;
+      res.render("logged/standarize", { recipe });
+    });
+});
+
 router.post(
   "/newmeal",
   [isLoggedIn("/"), uploadCloud.single("photo")],
   (req, res, next) => {
     const { name, ingredient } = req.body;
     Recipe.findOne({ name }).then(recipe => {
+      const { tips } = req.body;
       if (recipe == null) {
         let imgPath;
         if (req.file) {
@@ -75,7 +88,8 @@ router.post(
           imgPath =
             "http://res.cloudinary.com/aaronreina/image/upload/v1543767688/MyAwesomeMeals/my-file-name.jpg";
         }
-        Recipe.create({ name, imgPath }).then(recipe => {
+        Recipe.create({ name, imgPath, tips: [tips] }).then(recipe => {
+          console.log(recipe);
           const _id = req.user._id;
           const recipeId = recipe._id;
           Favorite.create({ users: _id, recipes: recipeId }).then(fav => {
@@ -92,31 +106,36 @@ router.post(
   }
 );
 
-//post axios
+router.post("/newingredient", [isLoggedIn("/"),uploadCloud.single("photo")],(req,res,next)=>{
+  const {name} = req.body
+  const imgPath = req.file.url
+  Ingredients.create({name,imgPath})
+})
+
+
 router.post("/getIngredients", isLoggedIn("/"), (req, res, next) => {
   Ingredients.find().then(ing => {
-    const search = req.body.input
-    let array1 = []
-    ing.forEach(e=>{
-      array1.push(e.name)
-    })
-    const match= stringSimilarity.findBestMatch(search,array1)
-    let matches = []
-    match.ratings.forEach(e=>{
-      console.log(e)
-        if (e.rating > 0.3) {
-          matches.push(e.target);
+    const search = req.body.input;
+    let array1 = [];
+    ing.forEach(e => {
+      array1.push(e.name);
+    });
+    const match = stringSimilarity.findBestMatch(search, array1);
+    let matches = [];
+    match.ratings.forEach(e => {
+      if (e.rating > 0.3) {
+        matches.push(e.target);
+      }
+    });
+    let final = [];
+    matches.forEach(e => {
+      ing.forEach(b => {
+        if (e == b.name) {
+          final.push(b);
         }
-     })
-     let final=[]
-     matches.forEach(e=>{
-       ing.forEach(b=>{
-         if(e==b.name){
-           final.push(b)
-         }
-       })
-     })
-     console.log(final)
+      });
+    });
+    console.log(final);
     res.send({ final });
   });
 });
@@ -125,20 +144,19 @@ router.post("/addmeal", isLoggedIn("/"), (req, res, next) => {
   const { name, imgPath, ingredients } = req.body;
   Recipe.findOne({ name }).then(recipe => {
     if (recipe == null) {
-      console.log();
-      Recipe.create({ name, imgPath, ingredients }).then(recipes => {
+      Recipe.create({ name, imgPath, tips: ingredients }).then(recipes => {
         console.log("recipe added");
         const _id = req.user._id;
         const recipeId = recipes._id;
         Favorite.create({ users: _id, recipes: recipeId }).then(e =>
-          console.log(e)
+          res.send(e._id)
         );
       });
     } else {
       const _id = req.user._id;
       const recipeId = recipe._id;
       Favorite.create({ users: _id, recipes: recipeId }).then(e =>
-        console.log(e)
+        res.send(e._id)
       );
     }
   });
@@ -155,33 +173,43 @@ router.post("/recipeRemove", isLoggedIn("/"), (req, res, next) => {
   });
 });
 
-router.post("/addingredient", isLoggedIn("/"), (req, res, next) => {
-  const { name } = req.body;
-  Ingredients.findOne({ name }).then(ing => {
-    const { _id } = ing;
-    IngredientsList.find({ ingredient: _id });
-  }); 
+// router.post("/addingredient", isLoggedIn("/"), (req, res, next) => {
+//   const { name } = req.body;
+//   Ingredients.findOne({ name }).then(ing => {
+//     const { _id } = ing;
+//     IngredientsList.find({ ingredient: _id });
+//   });
+// });
+
+router.post("/newmeal/:id", isLoggedIn("/"), (req, res, next) => {
+  const { id } = req.params;
+  const ingredient = req.body.ingredientarr;
+  Ingredients.find({ name: ingredient }).then(ing => {
+    let ingredientIds = [];
+    ing.forEach(e => {
+      ingredientIds.push(e._id);
+    });
+    Favorite.findById(id).then(fav => {
+      IngredientsList.findOne({ favorite: fav._id }).then(inglist => {
+        if (inglist == null) {
+          IngredientsList.create({
+            favorite: fav._id,
+            ingredient: ingredientIds
+          });
+        } else {
+          IngredientsList.findOneAndUpdate(
+            { favorite: fav._id },
+            { ingredient: ingredientIds }
+          ).then(list => {
+            Favorite.findOneAndUpdate(id, { ingredientList: list._id }).then(
+              e => res.send(e)
+            );
+          });
+        }
+      });
+    });
+  });
 });
 
-router.post("/newmeal/:id",isLoggedIn("/"),(req,res,next)=>{
-  const {id}=req.params
-  
-  const ingredient=req.body.ingredientarr
-
-  Ingredients.find({name:ingredient}).then(ing=>{
-    let ingredientIds=[]
-    ing.forEach(e=>{
-      ingredientIds.push(e._id)
-    })
-    console.log(ingredientIds)
-    Favorite.findById(id).then(fav=>{
-      IngredientsList.findOneAndUpdate({favorite:fav._id},{ingredient:ingredientIds}).then(list=>{
-        Favorite.findOneAndUpdate(id,{ingredientList:list._id})
-        Recipe.findByIdAndUpdate(fav.recipes,{ingredients:ingredient})
-      })
-    })
-    
-  })
-})
 
 module.exports = router;
