@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const Ingredients = require("../models/Ingredients")
 
 const ingredientListSchema = new Schema(
   {

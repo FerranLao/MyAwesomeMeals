@@ -35,7 +35,7 @@ let users = [
     password: encript("1"),
     email: "ninguno@ninguno.es",
     phone: "4532596234596",
-    meals: ["52771", "52780"],
+    meals: [],
     active: true
   },
   {

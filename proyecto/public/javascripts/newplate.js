@@ -27,6 +27,7 @@ document.querySelector(".seachingredient").addEventListener("click", e => {
     });
   });
 });
+
 document.querySelector(".createRecipe").addEventListener("click", e => {
   console.log(window.location.pathname);
   axios.post(window.location.pathname, { ingredientarr }).then(() => {

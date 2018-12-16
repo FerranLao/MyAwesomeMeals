@@ -167,7 +167,7 @@ router.post("/newmeal/:id",isLoggedIn("/"),(req,res,next)=>{
   const {id}=req.params
   
   const ingredient=req.body.ingredientarr
-  console.log(ingredient)
+
   Ingredients.find({name:ingredient}).then(ing=>{
     let ingredientIds=[]
     ing.forEach(e=>{
@@ -176,7 +176,8 @@ router.post("/newmeal/:id",isLoggedIn("/"),(req,res,next)=>{
     console.log(ingredientIds)
     Favorite.findById(id).then(fav=>{
       IngredientsList.findOneAndUpdate({favorite:fav._id},{ingredient:ingredientIds}).then(list=>{
-        Recipe.findByIdAndUpdate(fav.recipes,{ingredients:ingredient}).then(()=>res.send("ok"))
+        Favorite.findOneAndUpdate(id,{ingredientList:list._id})
+        Recipe.findByIdAndUpdate(fav.recipes,{ingredients:ingredient})
       })
     })
     
