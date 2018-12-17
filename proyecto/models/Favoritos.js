@@ -5,8 +5,7 @@ const favoritesSchema = new Schema(
   {
     users: { type: Schema.Types.ObjectId, ref: "User" },
     recipes: { type: Schema.Types.ObjectId, ref: "Recipe" },
-    ingredientList:{type: Schema.Types.ObjectId, ref: "ingredientList"}
-    
+    ingredientList:{type: Schema.Types.ObjectId, ref: "ingredientList"}    
   },
   {
     timestamps: {

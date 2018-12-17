@@ -4,6 +4,7 @@ const Recipe = require("../models/Recipes");
 const User = require("../models/User");
 const Favorite = require("../models/Favoritos");
 const Ingredients = require("../models/Ingredients");
+const Menu = require("../models/Menu");
 const IngredientsList = require("../models/IngredientsList");
 const { isLoggedIn } = require("../middlewares/IsLogged");
 const uploadCloud = require("../multer/cloudinary.js");
@@ -35,7 +36,6 @@ router.get("/allmeals", isLoggedIn("/"), (req, res, next) => {
       fav.forEach(e => {
         recipes.push(e.recipes);
       });
-      console.log(recipes);
       res.render("logged/allplatos", { recipes });
     });
 });
@@ -57,20 +57,49 @@ router.get("/lista", isLoggedIn("/"), (req, res, next) => {
 });
 
 router.get("/getrecipes", isLoggedIn("/"), (req, res, next) => {
-  console.log("hola");
   res.render("logged/getrecipes");
 });
 
 router.get("/standarize/:id", isLoggedIn("/"), (req, res, next) => {
-  console.log("kasjdklasjd");
   const id = req.params.id;
   Favorite.findById(id)
     .populate("recipes")
     .then(fav => {
-      console.log(fav);
       const recipe = fav.recipes;
       res.render("logged/standarize", { recipe });
     });
+});
+
+router.get("/newmenu", isLoggedIn("/"), (req, res, next) => {
+  Favorite.find()
+    .populate("recipes")
+    .then(favorites => {
+      const recipes = [];
+      favorites.forEach(e => recipes.push(e.recipes));
+      res.render("logged/newmenu", { recipes });
+    });
+});
+
+router.get("/charts/:id", isLoggedIn("/"), (req, res, next) => {
+  const { id } = req.params;
+  Menu.findById(id).then(men => {
+    const menuid = men.favorites;
+    Favorite.find({ _id: menuid })
+      .populate("ingredientList")
+      .then(fav => {
+        let ing = [];
+        console.log(fav);
+        fav.forEach(obj => {
+          if (obj.ingredientList) {
+            obj.ingredientList.ingredient.forEach(e => ing.push(e));
+          }
+        });
+        Ingredients.find({ _id: ing }).then(menu => {
+          console.log(menu);
+          res.render("logged/chart", { menu });
+        });
+      });
+  });
 });
 
 router.post(
@@ -106,12 +135,15 @@ router.post(
   }
 );
 
-router.post("/newingredient", [isLoggedIn("/"),uploadCloud.single("photo")],(req,res,next)=>{
-  const {name} = req.body
-  const imgPath = req.file.url
-  Ingredients.create({name,imgPath})
-})
-
+router.post(
+  "/newingredient",
+  [isLoggedIn("/"), uploadCloud.single("photo")],
+  (req, res, next) => {
+    const { name } = req.body;
+    const imgPath = req.file.url;
+    Ingredients.create({ name, imgPath });
+  }
+);
 
 router.post("/getIngredients", isLoggedIn("/"), (req, res, next) => {
   Ingredients.find().then(ing => {
@@ -191,18 +223,29 @@ router.post("/newmeal/:id", isLoggedIn("/"), (req, res, next) => {
     });
     Favorite.findById(id).then(fav => {
       IngredientsList.findOne({ favorite: fav._id }).then(inglist => {
+        console.log("eis")
         if (inglist == null) {
+          console.log("null");
           IngredientsList.create({
             favorite: fav._id,
             ingredient: ingredientIds
+          }).then(e => {
+            Favorite.findOneAndUpdate({_id:fav._id},{ingredientList:e._id}).then((e)=>{
+              console.log("done");
+              res.send(e);
+            })            
           });
         } else {
+          console.log("else");
           IngredientsList.findOneAndUpdate(
             { favorite: fav._id },
             { ingredient: ingredientIds }
           ).then(list => {
             Favorite.findOneAndUpdate(id, { ingredientList: list._id }).then(
-              e => res.send(e)
+              e => {
+                console.log("done");
+                res.send(e);
+              }
             );
           });
         }
@@ -211,5 +254,21 @@ router.post("/newmeal/:id", isLoggedIn("/"), (req, res, next) => {
   });
 });
 
+router.post("/newmenu", isLoggedIn("/"), (req, res, next) => {
+  const { menu } = req.body;
+  const user = req.user._id;
+  Recipe.find({ name: menu }).then(rec => {
+    let recipesId = [];
+    rec.forEach(e => recipesId.push(e._id));
+    Favorite.find({ recipes: recipesId }).then(fav => {
+      let favorites = [];
+      fav.forEach(e => favorites.push(e._id));
+      Menu.create({ user, favorites }).then(menu => {
+        console.log(menu);
+        res.send(menu._id);
+      });
+    });
+  });
+});
 
 module.exports = router;

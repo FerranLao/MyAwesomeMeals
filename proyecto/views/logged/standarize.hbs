@@ -1,6 +1,6 @@
 <div class="oneRecipe">
     <h2 class="recipelabel">{{recipe.name}}</h2>
-    <img class="recipeimage" src="{{recipe.image}}">
+    <img class="recipeimage" src="{{recipe.imgPath}}">
     <ul>
         <h3>Tips</h3>
         {{#each recipe.tips}}
@@ -10,12 +10,19 @@
     <p>Calories:{{recipe.calories}}</p>
 </div>
 <div>
-<label for="ingredients">Ingredients</label>
-<input class="ingredientsadd" name="ingredient" placeholder="Search ingredient">
-<button class="seachingredient">Search Ingredients</button>
-<div class="ingredients">
+    <label for="ingredients">Ingredients</label>
+    <input class="ingredientsadd" name="ingredient" placeholder="Search ingredient">
+    <button class="seachingredient">Search Ingredients</button>
+    <div class="ingredients">
+    </div>
+    <div class="ingredientList"></div>
 </div>
-<div class="ingredientList"></div>
+<button class="createingbutton"> Create it!!</button>
+<div class="createing">
+
+</div>
+<div class="ingredientList">
+
 </div>
 <button class="createRecipe">Create recipe</button>
 <script src="/javascripts/newplate.js"></script>
