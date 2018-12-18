@@ -30,7 +30,7 @@ const sendMail = (to, id) => {
       to, 
       subject: "Recovery email (MyAwesomeMeals)",
       text: "Recover",
-      html:template({
+      html:templaterecover({
         id:id,
         route:"https://myawesomemeals.herokuapp.com"
     })
