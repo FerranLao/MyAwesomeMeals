@@ -122,6 +122,10 @@ const addRecipeButton = () => {
       name,
       imgPath,
       ingredients
+    }).then((res)=>{
+      console.log(res)
+      window.location.replace(`/logged/standarize/${res.data}`)      
+
     });
   });
 };

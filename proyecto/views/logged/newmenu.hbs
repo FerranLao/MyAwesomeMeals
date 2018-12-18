@@ -1,0 +1,15 @@
+<h1>Create your menu</h1>
+<label>Name your menu</label>
+<input class="menuname" placeholder="low fat menu"></input>
+{{#each recipes}}
+<div class="recipe">
+    <p>{{this.name}}</p>
+    <img src="{{this.imgPath}}" height="200px">
+    <button class="addtochart">Add to your Menu</button>
+</div>
+{{/each}}
+<div class="menulist">
+
+</div>
+<button class="finishchart">Chart List</button>
+<script src="/javascripts/newmenu.js"></script>

@@ -3,9 +3,7 @@
 <div class="recipe">
     <p>{{this.name}}</p>
     <img src="{{this.imgPath}}" height="200px">
-    {{#each this.ingredients}}
-    <p>{{this}}</p>
-    {{/each}}
+    <a href="/logged/recipe/{{this._id}}">see this recipe in detail</a>
     <button class="recipeRemove">Remove this recipe</button>
 </div>
 {{/each}}

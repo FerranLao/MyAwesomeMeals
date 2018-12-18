@@ -1,12 +1,11 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-// const Recipe = require("../models/Recipes")
-// const User = require("../models/User")
 
 const favoritesSchema = new Schema(
   {
     users: { type: Schema.Types.ObjectId, ref: "User" },
-    recipes: { type: Schema.Types.ObjectId, ref: "Recipe" }
+    recipes: { type: Schema.Types.ObjectId, ref: "Recipe" },
+    ingredientList:{type: Schema.Types.ObjectId, ref: "ingredientList"}    
   },
   {
     timestamps: {

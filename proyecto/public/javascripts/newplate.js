@@ -17,9 +17,7 @@ document.querySelector(".seachingredient").addEventListener("click", e => {
         let ingHTML = document.querySelector(".ingredientList");
         ingHTML.innerHTML = "";
         const name = e.target.parentNode.querySelector("p").innerText;
-        console.log(name);
         ingredientarr.push(name);
-        console.log(ingredientarr);
         ingredientarr.forEach(e => {
           ingHTML.innerHTML += `<p>${e}</p>`;
         });
@@ -27,11 +25,28 @@ document.querySelector(".seachingredient").addEventListener("click", e => {
     });
   });
 });
+
+const createing = document.querySelector(".createing");
+document.querySelector(".createingbutton").addEventListener("click", e => {
+  createing.innerHTML = "";
+  createing.innerHTML = `<form action="/logged/newingredient" method="POST" id="form-container" enctype="multipart/form-data">
+  <label for="name">Ingredient name</label>
+  <input id="name" type="text" name="name" placeholder="Tomatoes">
+  <br><br>
+  <label for="photo">Add a photo</label>
+  <input id="photo" type="file" name="photo" placeholder="Your photo">
+  <br>
+  <button>Create Ingredient</button>
+  </form>`;
+});
+
 document.querySelector(".createRecipe").addEventListener("click", e => {
   console.log(window.location.pathname);
-  axios.post(window.location.pathname, { ingredientarr }).then(() => {
+  let path = window.location.pathname;
+  path = path.split("/");
+  axios.post(`/logged/newmeal/${path[3]}`, { ingredientarr }).then(e => {
+    console.log(e)
     ingredientarr = [];
     window.location.replace("/logged/allmeals");
   });
 });
-

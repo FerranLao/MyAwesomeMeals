@@ -5,8 +5,8 @@ const recipeSchema = new Schema({
   idMeal:String,
   name:String,
   imgPath:{type:String, default:"http://res.cloudinary.com/aaronreina/image/upload/v1543767688/MyAwesomeMeals/my-file-name.jpg"},
-  type:String,    
-  ingredients:Array,
+  type:String,
+  tips:[String],
 }, {
   timestamps: {
     createdAt: 'created_at',
