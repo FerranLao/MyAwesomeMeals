@@ -44,7 +44,6 @@ document.querySelector(".createRecipe").addEventListener("click", e => {
   console.log(window.location.pathname);
   let path = window.location.pathname;
   path = path.split("/");
-  console.log("eii");
   axios.post(`/logged/newmeal/${path[3]}`, { ingredientarr }).then(e => {
     console.log(e)
     ingredientarr = [];

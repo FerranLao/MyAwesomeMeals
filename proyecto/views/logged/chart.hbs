@@ -1,6 +1,10 @@
-{{#each menu}}
+<h1>{{name}}</h1>
 <div>
- <p>{{this.name}}</p>
- <img src="{{this.imgPath}}">
- </div>
+{{#each menu}}
+<div class="chart">
+    <p><span></span>{{this.name}}</p>
+    <img src="{{this.imgPath}}">
+</div>
 {{/each}}
+</div>
+<script src="/javascripts/chart.js"></script>

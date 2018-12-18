@@ -1,0 +1,8 @@
+<h1>your menus</h1>
+{{#each menu}}
+<div>
+    <a href="/logged/seemenus/{{this._id}}">{{this.name}}</a><button class="menudelete">delete this menu</button>
+    <span style="display:none">{{this._id}}</span>
+    </div>
+{{/each}}
+<script src="/javascripts/seemenus.js"></script>
