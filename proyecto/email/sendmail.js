@@ -34,7 +34,6 @@ const sendMail = (to, id) => {
         id:id,
         route:"https://myawesomemeals.herokuapp.com"
     })
-    //   html:`<a href="https://myawesomemeals.herokuapp.com/auth/recover/${id}">Recover</a>`
     })
     .then(info => console.log(info)).catch(e=>console.log(e))
   }
