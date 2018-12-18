@@ -112,19 +112,46 @@ router.get("/charts/:id", isLoggedIn("/"), (req, res, next) => {
       .populate("ingredientList")
       .then(fav => {
         let ing = [];
-        console.log(fav);
         fav.forEach(obj => {
           if (obj.ingredientList) {
             obj.ingredientList.ingredient.forEach(e => ing.push(e));
           }
         });
-        let menu=[]
-        ing.forEach(a=>{Ingredients.findById(a).then(e=>menu.push(e))})
-          console.log(menu);
-         setTimeout (res.render("logged/chart", { menu,name:men.name }),100)
-        
+        const rep = [];
+        console.log(ing);
+        for (let i = 0; i < ing.length; i++) {
+          var coincidence = 1;
+          for (let y = i + 1; y < ing.length; y++) {
+            if (ing[i] + "" == ing[y] + "") {
+              if (ing[i] != undefined) {
+                console.log("coincide!");
+                coincidence++;
+                rep.push({ ing: ing[y], coincidence });
+                delete ing[y];
+              }
+            }
+          }
+        }
+        Ingredients.find({ _id: ing }).then(menu => {
+          menu.forEach(a => {
+            rep.forEach(e => {
+              if (a._id + "" == e.ing + "") {
+                console.log(a.name + "");
+                if (a.name.indexOf(" x ") != -1) {
+                  var split = a.name.split(" x ");
+                  console.log(split);
+                  a.name = e.coincidence + " x " + split[1];
+                } else {
+                  a.name = e.coincidence + " x " + a.name;
+                }
+              }
+            });
+          });
+
+          res.render("logged/chart", { menu, name: men.name });
+        });
       });
-  })
+  });
 });
 
 router.post(
@@ -140,7 +167,7 @@ router.post(
           imgPath = req.file.url;
         } else {
           imgPath =
-            "http://res.cloudinary.com/aaronreina/image/upload/v1543767688/MyAwesomeMeals/my-file-name.jpg";
+            "http://happyhormonesforlife.com/wp-content/uploads/2014/05/Grandma-cooking.jpg";
         }
         Recipe.create({ name, imgPath, tips: [tips] }).then(recipe => {
           console.log(recipe);
@@ -148,8 +175,7 @@ router.post(
           const recipeId = recipe._id;
           Favorite.create({ users: _id, recipes: recipeId }).then(fav => {
             const favorite = fav._id;
-            res.redirect(`/logged/newmeal/${favorite}`)
-           
+            res.redirect(`/logged/newmeal/${favorite}`);
           });
         });
       } else {
@@ -163,8 +189,15 @@ router.post(
   "/newingredient",
   [isLoggedIn("/"), uploadCloud.single("photo")],
   (req, res, next) => {
+    if (req.file) {
+      imgPath = req.file.url;
+    } else {
+      imgPath =
+        " http://happyhormonesforlife.com/wp-content/uploads/2014/05/Grandma-cooking.jpg";
+    }
     const { name } = req.body;
     const imgPath = req.file.url;
+
     Ingredients.create({ name, imgPath });
   }
 );
@@ -232,7 +265,7 @@ router.post("/recipeRemove", isLoggedIn("/"), (req, res, next) => {
 router.post("/newmeal/:id", isLoggedIn("/"), (req, res, next) => {
   const { id } = req.params;
   const ingredient = req.body.ingredientarr;
-  console.log("aqui estoy")
+  console.log("aqui estoy");
   Ingredients.find({ name: ingredient }).then(ing => {
     let ingredientIds = [];
     ing.forEach(e => {
@@ -246,29 +279,29 @@ router.post("/newmeal/:id", isLoggedIn("/"), (req, res, next) => {
             favorite: fav._id,
             ingredient: ingredientIds
           }).then(e => {
-            console.log(e)
+            console.log(e);
             Favorite.findOneAndUpdate(
               { _id: fav._id },
               { ingredientList: e._id }
             ).then(e => {
-              console.log("done",e);
+              console.log("done", e);
               res.send(e);
             });
           });
         } else {
           console.log("else");
-          console.log(ingredientIds)
+          console.log(ingredientIds);
           IngredientsList.findOneAndUpdate(
             { favorite: fav._id },
             { ingredient: ingredientIds }
           ).then(list => {
-            console.log(list)
-            Favorite.findOneAndUpdate(id, { ingredientList: list._id }).populate("ingredientList").then(
-              e => {
-                console.log("done",e);
+            console.log(list);
+            Favorite.findOneAndUpdate(id, { ingredientList: list._id })
+              .populate("ingredientList")
+              .then(e => {
+                console.log("done", e);
                 res.send(e);
-              }
-            );
+              });
           });
         }
       });
@@ -280,7 +313,7 @@ router.post("/newmenu", isLoggedIn("/"), (req, res, next) => {
   let { menu, name } = req.body;
   const user = req.user._id;
   if (name == "") {
-    name = "no name menu";
+    name = `${req.user.username} menu`;
   }
   console.log(menu, name);
   Recipe.find({ name: menu }).then(rec => {
@@ -290,7 +323,6 @@ router.post("/newmenu", isLoggedIn("/"), (req, res, next) => {
       let favorites = [];
       fav.forEach(e => favorites.push(e._id));
       Menu.create({ user, favorites, name }).then(menu => {
-        console.log(menu);
         res.send(menu._id);
       });
     });
