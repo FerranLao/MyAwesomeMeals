@@ -10,4 +10,10 @@ router.get('/', (req, res, next) => {
   res.render('index');
 });
 
+router.get('/info', (req, res, next) => {
+   res.render('info');
+ });
+ router.get('/infodevelop', (req, res, next) => {
+  res.render('infodevelop');
+});
 module.exports = router;

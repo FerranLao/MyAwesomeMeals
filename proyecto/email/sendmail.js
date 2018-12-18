@@ -6,6 +6,9 @@ const hbs = require("handlebars")
 const templateFile = path.join(__dirname,'./templates/template.html')
 const htmlstr=fs.readFileSync(templateFile).toString();
 const template = hbs.compile(htmlstr)
+const templateFilerecover = path.join(__dirname,'./templates/templaterecover.html')
+const htmlstrrecover=fs.readFileSync(templateFilerecover).toString();
+const templaterecover = hbs.compile(htmlstrrecover)
 
 const sendMail = (to, id) => {
     return transporter.sendMail({
@@ -27,7 +30,11 @@ const sendMail = (to, id) => {
       to, 
       subject: "Recovery email (MyAwesomeMeals)",
       text: "Recover",
-      html:`<a href="https://myawesomemeals.herokuapp.com/auth/recover/${id}">Recover</a>`
+      html:template({
+        id:id,
+        route:"https://myawesomemeals.herokuapp.com"
+    })
+    //   html:`<a href="https://myawesomemeals.herokuapp.com/auth/recover/${id}">Recover</a>`
     })
     .then(info => console.log(info)).catch(e=>console.log(e))
   }
