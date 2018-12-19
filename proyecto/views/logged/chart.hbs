@@ -1,10 +1,14 @@
 <h1>{{name}}</h1>
-<div>
-{{#each menu}}
-<div class="chart">
-    <p><span></span>{{this.name}}</p>
-    <img src="{{this.imgPath}}">
-</div>
-{{/each}}
+<div class="checklist_container">
+    {{#each menu}}
+    <div>
+        <p>
+            <label for="input{{@index}}">
+                <input id="input{{@index}}" type="checkbox" />
+                <span><img src="{{this.imgPath}}">{{this.name}}</span>
+            </label>
+        </p>
+    </div>
+    {{/each}}
 </div>
 <script src="/javascripts/chart.js"></script>

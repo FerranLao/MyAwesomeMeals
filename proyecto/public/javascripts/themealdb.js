@@ -2,6 +2,13 @@ const EDAMAN_ID = "5940c193";
 const EDAMAN_KEY = "4e1db070e05a46be2e5876d8b1d38516";
 let page = 1;
 
+$(document).ready(function() {
+  $("select").formSelect();
+});
+$(document).ready(function() {
+  M.updateTextFields();
+});
+
 const urlMaker = () => {
   let max = page * 10;
   let min = max - 10;
@@ -25,23 +32,32 @@ const urlMaker = () => {
 const getMeals = () => {
   let API_URL = urlMaker();
   return axios.get(API_URL).then(res => {
-    console.log(API_URL)
+    console.log(API_URL);
     let html = "";
     res.data.hits.forEach(el => {
-      html += '<div class="target">';
-      html += `<h3>${el.recipe.label}</h3>`;
-      html += `<img src="${el.recipe.image}">`;
-      // el.recipe.ingredients.forEach(e => {
-      //   html += `<p>${e.text}</p>`;
-      // });
-      html += "<button class='seeRecipe'>See this recipe</button>";
-      html += "</div>";
+      html += ` <div class="row">
+      <div class="col s12 m7 targeta">
+        <div class="card small ">
+          <div class="card-image">
+            <img src="${el.recipe.image}">
+          </div>
+          <div class="card-content">
+            <p>${el.recipe.label}</p>
+          </div>
+          <div class="card-action">
+            <a  class='seeRecipe' href="#">See this recipe</a>
+          </div>
+        </div>
+      </div>
+    </div>`;
     });
+    const buttonshtml = document.querySelector(".nextbackbuttons");
+    buttonshtml.innerHTML = "";
     if (page > 1) {
-      html += '<button class="backbutton">back</button>';
+      buttonshtml.innerHTML += '<button class="backbutton">back</button>';
     }
     if (res.data.more) {
-      html += '<button class="nextbutton">next</button>';
+      buttonshtml.innerHTML += '<button class="nextbutton">next</button>';
     }
     document.querySelector(".apiRecipes").innerHTML = html;
     buttonAdder();
@@ -54,19 +70,34 @@ const randomMeal = () => {
   let API_URL = urlMaker();
   API_URL += "&to=50";
   return axios.get(API_URL).then(res => {
-    console.log(res)
+    console.log(res);
     let html = "";
     const recipe = res.data.hits;
     const random = Math.floor(Math.random() * recipe.length);
-    html += '<div class="target">';
-    html += `<h3>${recipe[random].recipe.label}</h3>`;
-    html += `<img src="${recipe[random].recipe.image}">`;
+    html = ` <div class="col s12 m7">
+    <h2 class="header recipelabel">${recipe[random].recipe.label}</h2>
+    <div class="card horizontal">
+      <div class="card-image">
+        <img class="recipeimage" src="${recipe[random].recipe.image}">
+    </div>
+      <div class="card-stacked">
+        <div class="card-content">
+        <ul>`;
     recipe[random].recipe.ingredients.forEach(e => {
-      html += `<p>${e.text}</p>`;
+      html += `<li class="ingredientsli">${e.text}</li>`;
     });
-    html += "</div>";
-
-    document.querySelector(".apiRecipes").innerHTML = html;
+    html += `</ul>
+         <p>Calories:${recipe[random].recipe.calories}</p><br><br>`;
+    recipe[random].recipe.healthLabels.forEach(e => (html += `<li>${e}</li>`));
+    html += `</div>
+        <div class="card-action">
+          <a href="#" class="addRecipe">Add to your favorites</a>
+        </div>
+      </div>
+    </div>
+  </div>`;
+       document.querySelector(".apiRecipes").innerHTML = html;
+       addRecipeButton();
   });
 };
 document.querySelector(".Random").addEventListener("click", randomMeal);
@@ -74,34 +105,43 @@ document.querySelector(".Random").addEventListener("click", randomMeal);
 const buttonAdder = () => {
   document.querySelectorAll(".seeRecipe").forEach(e => {
     e.addEventListener("click", function(e) {
-      const recipeName = e.target.parentNode.querySelector("h3").innerText;
+      const recipeName = e.target.parentNode.parentNode.querySelector("p");
 
-      const API_URL = `https://api.edamam.com/search?q=${recipeName}&app_id=${EDAMAN_ID}&app_key=${EDAMAN_KEY}`;
+      const API_URL = `https://api.edamam.com/search?q=${
+        recipeName.innerText
+      }&app_id=${EDAMAN_ID}&app_key=${EDAMAN_KEY}`;
       axios
         .get(API_URL)
         .then(res => {
-          console.log(res)
-          let recipe ;
-          res.data.hits.forEach(e=>{
-            if(e.recipe.label==recipeName){
-              recipe=e.recipe
+          document.querySelector(".nextbackbuttons").innerHTML = "";
+          let recipe;
+          res.data.hits.forEach(e => {
+            if (e.recipe.label.replace("-", " ") == recipeName.innerText) {
+              recipe = e.recipe;
             }
-          })
-          let html = "";
-          html += `<div class="oneRecipe">`;
-          html += `<h2 class="recipelabel">${recipe.label}</h2>`;
-          html += `<img class="recipeimage" src="${recipe.image}">`;
-          html += `<ul><h3>Ingredients</h3>`;
+          });
+          let html = ` <div class="col s12 m7">
+          <h2 class="header recipelabel">${recipe.label}</h2>
+          <div class="card horizontal">
+            <div class="card-image">
+              <img class="recipeimage" src="${recipe.image}">
+            </div>
+            <div class="card-stacked">
+              <div class="card-content">
+              <ul>`;
           recipe.ingredients.forEach(e => {
             html += `<li class="ingredientsli">${e.text}</li>`;
           });
-          html += `</ul>`;
-          html += `<p>Calories:${recipe.calories}</p>`;
-          html += `<ul><h3>Health labels<h3>`;
+          html += `</ul>
+               <p>Calories:${recipe.calories}</p><br><br>`;
           recipe.healthLabels.forEach(e => (html += `<li>${e}</li>`));
-          html += `</ul>`;
-          html += `<button class="addRecipe">Add to your recipes</button>`;
-          html += `</div>`;
+          html += `</div>
+              <div class="card-action">
+                <a href="#" class="addRecipe">Add to your favorites</a>
+              </div>
+            </div>
+          </div>
+        </div>`;
           document.querySelector(".apiRecipes").innerHTML = html;
         })
         .then(() => {
@@ -118,15 +158,16 @@ const addRecipeButton = () => {
     document.querySelectorAll(".ingredientsli").forEach(e => {
       ingredients.push(e.innerText);
     });
-    axios.post("/logged/addmeal", {
-      name,
-      imgPath,
-      ingredients
-    }).then((res)=>{
-      console.log(res)
-      window.location.replace(`/logged/standarize/${res.data}`)      
-
-    });
+    axios
+      .post("/logged/addmeal", {
+        name,
+        imgPath,
+        ingredients
+      })
+      .then(res => {
+        console.log(res);
+        window.location.replace(`/logged/standarize/${res.data}`);
+      });
   });
 };
 

@@ -1,5 +1,7 @@
-
-<h2>Edit your profile</h2>
+<div class="contenedor center">
+    <div class="width100">
+<h2 class="greyh" >Edit your profile</h2>
+</div>
 <div class="container">
   <form action="/auth/editprofile" method="POST" id="form-container">
     <div class="row">
@@ -46,13 +48,14 @@
     <div class="error-message">{{ message }}</div>
   {{/if}}
     <div class="row">
-      <input type="submit" value="Create account">
+      <input class="waves-effect waves-light btn-small" type="submit" value="Create account">
     </div>
      <p class="account-message">
      Do you already have an account?
     <a href="/auth/login">Loggin</a>
   </p>
   </form>
+</div>
 </div>
 <script src="/javascripts/password.min.js"></script>
 <script src="/javascripts/passwordStrength.js"></script>

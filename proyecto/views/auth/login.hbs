@@ -1,4 +1,7 @@
-<h2>Loggin</h2>
+<div class="contenedor center">
+ <div class="width100">
+<h2 class="greyh">Loggin</h2>
+ </div>
 <div class="container">
   <form action="/auth/login" method="POST" id="form-container">
     <div class="row">
@@ -25,13 +28,15 @@
       {{/if}}
     </div>
     <div class="row">
-      <input type="submit" value="Loggin">
+      <input class="waves-effect waves-light btn" type="submit" value="Loggin">
     </div>
     <p class="account-message">
-      Don't have an account yet?<a href="/auth/signup">Signup</a><br><br>
-      Forgot your password? <a href="/auth/recover">Click Here</a>
+      Don't have an account yet?<a  href="/auth/signup">Signup</a><br><br>
+      Forgot your password? <a   href="/auth/recover">Click Here</a>
     </p>
-
-  <a href="/auth/google">Sign In with Google</a>
+<a href="/auth/google">
+<img border="0" alt="Sign In with Google" src="https://res.cloudinary.com/aaronreina/image/upload/v1545248165/MyAwesomeMeals/btn_google_signin_dark_normal_web.png"  height="50">
+</a>
   </form>
+</div>
 </div>
