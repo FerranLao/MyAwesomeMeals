@@ -8,8 +8,15 @@
   display: flex;
   justify-content: space-around; }
 
-.apisearcher {
-  margin: 2% 8%; }
+.recipescontainer {
+  display: flex;
+  flex-wrap: wrap; }
+  .recipescontainer div {
+    width: 35vh; }
+    .recipescontainer div div div {
+      width: 35vh; }
+      .recipescontainer div div div div {
+        width: 35vh; }
 
 .standarizecontainer {
   margin: 2% 5%; }

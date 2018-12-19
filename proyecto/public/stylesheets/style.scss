@@ -9,9 +9,22 @@
   justify-content: space-around;
 }
 
-.apisearcher {
-  margin: 2% 8%;
+.recipescontainer{
+  display: flex;
+  flex-wrap: wrap;
+  div {
+    width: 35vh;
+    div {
+      div {
+        width: 35vh;
+        div {
+          width: 35vh;
+        }
+      }
+    }
+  }
 }
+
 .standarizecontainer {
   margin: 2% 5%;
 }

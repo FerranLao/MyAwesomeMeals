@@ -1,10 +1,30 @@
 <h1>Your Recipes</h1>
-{{#each recipes}}
-<div class="recipe">
+{{!-- {{#each recipes}}
+<div>
     <p>{{this.name}}</p>
     <img src="{{this.imgPath}}" height="200px">
     <a href="/logged/recipe/{{this._id}}">see this recipe in detail</a>
     <button class="recipeRemove">Remove this recipe</button>
 </div>
+{{/each}} --}}
+<div class="recipescontainer">
+{{#each recipes}}
+<div class="row">
+    <div class="col s12 m7">
+      <div class="card">
+        <div class="card-image">
+          <img src="{{this.imgPath}}">
+        </div>
+        <div class="card-content">
+          <p>{{this.name}}</p>
+        </div>
+        <div class="card-action">
+          <a href="/logged/recipe/{{this._id}}">see this recipe in detail</a>
+          <a class="waves-effect waves-light btn-small recipeRemove">Remove this recipe</a>
+        </div>
+      </div>
+    </div>
+  </div>
 {{/each}}
+</div>
 <script src="../javascripts/allplatos.js"></script>
