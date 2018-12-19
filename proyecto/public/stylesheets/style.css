@@ -9,7 +9,7 @@
   justify-content: space-around; }
 
 .apisearcher {
-  margin: 2% 10%; }
+  margin: 2% 8%; }
 
 .standarizecontainer {
   margin: 2% 5%; }
@@ -22,5 +22,11 @@
     width: 20vh; }
     .ingredients div div div div {
       width: 20vh; }
+
+.ingredientscontainer {
+  display: flex; }
+
+.ingredientList {
+  list-style: none; }
 
 /*# sourceMappingURL=style.css.map */

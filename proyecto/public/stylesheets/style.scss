@@ -10,7 +10,7 @@
 }
 
 .apisearcher {
-  margin: 2% 10%;
+  margin: 2% 8%;
 }
 .standarizecontainer {
   margin: 2% 5%;
@@ -29,4 +29,10 @@
       }
     }
   }
+}
+.ingredientscontainer{
+  display: flex;
+}
+.ingredientList{
+  list-style: none;
 }

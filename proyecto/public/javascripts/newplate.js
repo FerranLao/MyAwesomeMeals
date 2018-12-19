@@ -12,43 +12,23 @@ document.querySelector(".seachingredient").addEventListener("click", e => {
         <div class="card">
           <div class="card-image">
             <img src="${el.imgPath}">
-            <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add</i></a>
+            <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons  addingredient">+</i></a>
           </div>
           <div class="card-content">
             <p>${el.name}</p>
           </div>
         </div>
       </div>
-    </div>`
-      
-      
-      
-    //   ` <div class="row">
-    //   <div class="col s12 m7">
-    //     <div class="card small">
-    //       <div class="card-image">
-    //         <img src="${el.imgPath}">
-    //       </div>
-    //       <div class="card-content">
-    //         <p>${el.name}</p>
-    //       </div>
-    //       <div class="card-action">
-    //         <a class="addingredient" href="#">Add Ingredient</a>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </div>`;
+    </div>`;
     });
     document.querySelectorAll(".addingredient").forEach(buttons => {
       buttons.addEventListener("click", e => {
         e.preventDefault();
-        let ingHTML = document.querySelector(".ingredientList");
-        ingHTML.innerHTML = "";
-        const name = e.target.parentNode.querySelector("p").innerText;
+        const name = e.target.parentNode.parentNode.parentNode.querySelector(
+          "p"
+        ).innerText;
         ingredientarr.push(name);
-        ingredientarr.forEach(e => {
-          ingHTML.innerHTML += `<p>${e}</p>`;
-        });
+        printingr();
       });
     });
   });
@@ -100,3 +80,29 @@ document.querySelector(".createRecipe").addEventListener("click", e => {
     window.location.replace("/logged/allmeals");
   });
 });
+
+const arrdelete = () => {
+  document.querySelectorAll(".listdel").forEach(e => {
+    e.addEventListener("click", e => {
+      let text = e.target.parentNode.parentNode.innerText;
+      text = text.split("\nX")
+      const indexof=ingredientarr.indexOf(text[0])
+      ingredientarr.splice(indexof, 1);
+      printingr()
+    });
+  });
+};
+
+const printingr = () => {
+  let ingHTML = document.querySelector(".ingredientList");
+  ingHTML.innerHTML = "";
+  ingHTML.innerHTML += `<ul class="collection with-header">
+  <li class="collection-header"><h4>Ingredients</h4></li>`;
+  ingredientarr.forEach(e => {
+    if (e != undefined) {
+      ingHTML.innerHTML += `<li class="collection-item"><div>${e}<a href="#!" class="secondary-content listdel"><i class="material-icons ">X</i></a></div></li>`;
+    }
+  });
+  ingHTML.innerHTML += `</ul>`;
+  arrdelete();
+};
