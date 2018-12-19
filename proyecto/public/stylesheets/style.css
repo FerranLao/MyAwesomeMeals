@@ -3,12 +3,16 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
 
 a {
-  color: #00B7FF; }
+  color: #00b7ff; }
 
 * {
   box-sizing: border-box; }
 
-input[type=text], input[type=password], input[type=email], select, textarea {
+input[type="text"],
+input[type="password"],
+input[type="email"],
+select,
+textarea {
   width: 100%;
   padding: 12px;
   border: 1px solid #ccc;
@@ -20,7 +24,7 @@ label {
   padding: 12px 12px 12px 0;
   display: inline-block; }
 
-input[type=submit] {
+input[type="submit"] {
   background-color: #3db100;
   color: white;
   padding: 12px 20px;
@@ -29,7 +33,7 @@ input[type=submit] {
   cursor: pointer;
   float: right; }
 
-input[type=submit]:hover {
+input[type="submit"]:hover {
   background-color: #45a049; }
 
 .container {
@@ -55,7 +59,9 @@ input[type=submit]:hover {
 
 /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
 @media screen and (max-width: 600px) {
-  .col-25, .col-75, input[type=submit] {
+  .col-25,
+  .col-75,
+  input[type="submit"] {
     width: 100%;
     margin-top: 0; } }
 
@@ -81,7 +87,7 @@ input[type=submit]:hover {
 
 /* Add an active class to highlight the current page */
 .active {
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white; }
 
 /* Hide the link that should open and close the topnav on small screens */
@@ -109,10 +115,12 @@ input[type=submit]:hover {
     display: block;
     text-align: left; } }
 
-input:valid, textarea:valid {
-  border-color: #4CAF50; }
+input:valid,
+textarea:valid {
+  border-color: #4caf50; }
 
-input:invalid, textarea:invalid {
+input:invalid,
+textarea:invalid {
   border-color: red; }
 
 .pass-colorbar {
@@ -135,15 +143,10 @@ input:invalid, textarea:invalid {
   width: 100%;
   position: relative; }
 
-.target {
-  border: 1px solid red;
-  width: 20%; }
-  .target img {
-    width: 100%; }
-
-.apiRecipes {
+.contenedor {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around; }
+  justify-content: space-around;
+  margin: 2% 10%; }
 
 /*# sourceMappingURL=style.css.map */
