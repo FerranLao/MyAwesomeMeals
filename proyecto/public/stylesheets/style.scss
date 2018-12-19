@@ -49,3 +49,20 @@
 .ingredientList{
   list-style: none;
 }
+.menurecipes{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  width: 80%;
+  div {
+    div {
+      div {
+        width: 40vh;
+        div {
+          width: 40vh;
+        }
+      }
+    }
+  }
+  
+}

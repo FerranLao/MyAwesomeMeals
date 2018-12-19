@@ -36,4 +36,14 @@
 .ingredientList {
   list-style: none; }
 
+.menurecipes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  width: 80%; }
+  .menurecipes div div div {
+    width: 40vh; }
+    .menurecipes div div div div {
+      width: 40vh; }
+
 /*# sourceMappingURL=style.css.map */
