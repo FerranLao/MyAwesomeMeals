@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="en">
 
 <head>
@@ -16,16 +16,36 @@
 </head>
 
 <body>
-  <nav class="topnav" id="myTopnav">
-    <a class="active" href="/">Home</a>
-    <a href="/auth/login">Login</a>
-    <a href="/auth/signup">Signup</a>
-    <a href="/auth/logout">Logout</a>
-    <a href="/logged/main">main</a>
-    <a class="icon">
-      <i class="fa fa-bars"></i>
+
+
+
+  <nav>
+    <div class="nav-wrapper">
+      <a href="#!" class="brand-logo">MyAwesomeMeals</a>
+      <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+       <li><a class="active" href="/info">How it works!</a></li>
+        <li><a class="active" href="/infodevelop">More about MyAwesomeMeals</a></li>
+         <li><a class="active" href="/auth/login">Loggin</a></li>
+        <li><a class="active"  href="/auth/signup">Signup</a></li>
+        <li><a class="active"  href="/auth/logout">Logout</a></li>
+        <li><a class="active" href="/logged/main">Main</a></li>
     </a>
+          
+        </li>
+      </ul>
+    </div>
   </nav>
+
+<ul class=" right sidenav" id="mobile-nav">
+    <li><a href="/auth/login">Loggin</a></li>
+         <li><a href="/auth/login">Loggin</a></li>
+        <li><a href="/auth/signup">Signup</a></li>
+        <li><a href="/auth/logout">Logout</a></li>
+        <li><a href="/logged/main">Main</a></li>
+  </ul>
+
+
   <div class="standarizecontainer">
   {{{body}}}
   </div>
