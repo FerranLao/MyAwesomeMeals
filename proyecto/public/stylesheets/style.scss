@@ -28,6 +28,7 @@
 .standarizecontainer {
   margin: 2% 5%;
 }
+
 .ingredients {
   display: flex;
   flex-wrap: wrap;
@@ -43,12 +44,15 @@
     }
   }
 }
+
 .ingredientscontainer{
   display: flex;
 }
+
 .ingredientList{
   list-style: none;
 }
+
 .menurecipes{
   display: flex;
   flex-wrap: wrap;
@@ -64,5 +68,4 @@
       }
     }
   }
-  
 }

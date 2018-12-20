@@ -5,7 +5,9 @@ document.querySelectorAll(".reciperemove").forEach(node => {
     let path = window.location.pathname;
     path = path.split("/");
     axios.post(`/logged/recipemenuremove/${path[3]}`, { id }).then(() => {
-      e.target.parentNode.innerHTML = "";
+      e.target.parentNode.parentNode.parentNode.parentNode.parentNode.removeChild(
+        e.target.parentNode.parentNode.parentNode.parentNode
+      );
     });
   });
 });
