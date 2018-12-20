@@ -100,7 +100,7 @@ const printingr = () => {
   <li class="collection-header"><h4>Ingredients</h4></li>`;
   ingredientarr.forEach(e => {
     if (e != undefined) {
-      ingHTML.innerHTML += `<li class="collection-item"><div>${e}<a href="#!" class="secondary-content listdel"><i class="material-icons ">X</i></a></div></li>`;
+      ingHTML.innerHTML += `<li class="collection-item"><div>${e}<a href="#!" class="secondary-content listdel"><i class="material-icons ">close</i></a></div></li>`;
     }
   });
   ingHTML.innerHTML += `</ul>`;

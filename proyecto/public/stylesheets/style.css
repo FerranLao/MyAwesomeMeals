@@ -11,12 +11,33 @@
 .recipescontainer {
   display: flex;
   flex-wrap: wrap; }
+  .recipescontainer .card-image img {
+    height: 300px;
+    width: 35vh; }
+  .recipescontainer .card-content {
+    height: 65px; }
   .recipescontainer div {
     width: 35vh; }
     .recipescontainer div div div {
       width: 35vh; }
       .recipescontainer div div div div {
         width: 35vh; }
+
+@media only screen and (max-width: 820px) {
+  .recipescontainer {
+    display: flex;
+    flex-wrap: wrap; }
+    .recipescontainer .card-image img {
+      height: 300px;
+      width: 35vh; }
+    .recipescontainer .card-content {
+      height: 65px; }
+    .recipescontainer div {
+      width: 50vh; }
+      .recipescontainer div div div {
+        width: 50vh; }
+        .recipescontainer div div div div {
+          width: 50vh; } }
 
 .standarizecontainer {
   margin: 2% 5%; }
@@ -45,5 +66,8 @@
     width: 40vh; }
     .menurecipes div div div div {
       width: 40vh; }
+
+.collection-item {
+  height: 30px; }
 
 /*# sourceMappingURL=style.css.map */
