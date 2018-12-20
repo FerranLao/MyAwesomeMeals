@@ -15,12 +15,26 @@
   justify-content: space-around;
 }
 
-.apisearcher {
-  margin: 2% 10%;
+.recipescontainer{
+  display: flex;
+  flex-wrap: wrap;
+  div {
+    width: 35vh;
+    div {
+      div {
+        width: 35vh;
+        div {
+          width: 35vh;
+        }
+      }
+    }
+  }
 }
+
 .standarizecontainer {
   margin: 2% 5%;
 }
+
 .ingredients {
   display: flex;
   flex-wrap: wrap;
@@ -71,5 +85,28 @@ input:invalid, textarea:invalid {
 .marginnav{
   padding-left: 2%;
    padding-right: 2%;
+}
+.ingredientscontainer{
+  display: flex;
+}
 
+.ingredientList{
+  list-style: none;
+}
+
+.menurecipes{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  width: 80%;
+  div {
+    div {
+      div {
+        width: 40vh;
+        div {
+          width: 40vh;
+        }
+      }
+    }
+  }
 }

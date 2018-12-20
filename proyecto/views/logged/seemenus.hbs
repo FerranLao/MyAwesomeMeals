@@ -1,8 +1,12 @@
-<h1>your menus</h1>
-{{#each menu}}
-<div>
-    <a href="/logged/seemenus/{{this._id}}">{{this.name}}</a><button class="menudelete">delete this menu</button>
-    <span style="display:none">{{this._id}}</span>
-    </div>
-{{/each}}
+<ul class="collection with-header">
+    <li class="collection-header">
+        <h4>Your menus</h4>
+    </li>
+    {{#each menu}}
+    <li class="collection-item">
+        <div><a href="/logged/seemenus/{{this._id}}">{{this.name}}</a><span style="display:none">{{this._id}}</span><a
+                href="#!" class="secondary-content menudelete"><i class="material-icons">delete this menu</i></a></div>
+    </li>
+    {{/each}}
+</ul>
 <script src="/javascripts/seemenus.js"></script>

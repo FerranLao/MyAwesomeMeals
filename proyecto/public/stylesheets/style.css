@@ -12,8 +12,15 @@
   display: flex;
   justify-content: space-around; }
 
-.apisearcher {
-  margin: 2% 10%; }
+.recipescontainer {
+  display: flex;
+  flex-wrap: wrap; }
+  .recipescontainer div {
+    width: 35vh; }
+    .recipescontainer div div div {
+      width: 35vh; }
+      .recipescontainer div div div div {
+        width: 35vh; }
 
 .standarizecontainer {
   margin: 2% 5%; }
@@ -60,5 +67,21 @@ input:invalid, textarea:invalid {
 .marginnav {
   padding-left: 2%;
   padding-right: 2%; }
+
+.ingredientscontainer {
+  display: flex; }
+
+.ingredientList {
+  list-style: none; }
+
+.menurecipes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  width: 80%; }
+  .menurecipes div div div {
+    width: 40vh; }
+    .menurecipes div div div div {
+      width: 40vh; }
 
 /*# sourceMappingURL=style.css.map */
