@@ -1,9 +1,10 @@
 <h1>{{name}}</h1>
-<a class="waves-effect waves-light btn-small" href="/logged/charts/{{id}}"><i class="material-icons left">add_shopping_cart</i>view the chart of this menu</a>
+<a class="waves-effect waves-light btn-small" href="/logged/charts/{{id}}"><i class="material-icons left">add_shopping_cart</i>view
+  the chart of this menu</a>
 
 <div class="recipescontainer">
-{{#each recipes}}
-<div class="row">
+  {{#each recipes}}
+  <div class="row">
     <div class="col s12 m7">
       <div class="card">
         <div class="card-image">
@@ -15,12 +16,12 @@
         <div class="card-action">
           <span style="display:none">{{this._id}}</span>
           <a href="/logged/recipe/{{this._id}}">see this recipe in detail</a>
-          <a class="waves-effect waves-light btn-small reciperemove"><i class="material-icons left">delete_forever</i>Remove from menu</a>
+          <a class="waves-effect waves-light btn-small reciperemove"><i class="material-icons left">delete_forever</i>Remove
+            from menu</a>
         </div>
       </div>
     </div>
   </div>
-{{/each}}
+  {{/each}}
 </div>
-
 <script src="/javascripts/recipemenu.js"></script>

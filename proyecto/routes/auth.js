@@ -128,7 +128,7 @@ router.post("/editprofile", isLoggedIn("/"), (req, res, next) => {
   if (password != "") {
     edited.password = hashPass;
   }
-  if ( !backCheck(username ,"name") || !backCheck(password, "password") || !backCheck(email, "email")|| !backCheck (phone,"phone")) {
+  if ( !backCheck(username ,"name") || !backCheck(email, "email")|| !backCheck (phone,"phone")) {
     res.render("auth/signup", { message: "Acces not allowed" });
     return;
   }

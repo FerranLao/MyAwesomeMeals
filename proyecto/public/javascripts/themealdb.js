@@ -121,28 +121,53 @@ const buttonAdder = () => {
               recipe = e.recipe;
             }
           });
-          let html = ` <div class="col s12 m7">
-          <h2 class="header recipelabel">${recipe.label}</h2>
-          <div class="card horizontal">
-            <div class="card-image">
-              <img class="recipeimage" src="${recipe.image}">
-            </div>
-            <div class="card-stacked">
-              <div class="card-content">
-              <ul>`;
+          //   let html = ` <div class="col s12 m7">
+          //   <h2 class="header recipelabel">${recipe.label}</h2>
+          //   <div class="card horizontal">
+          //     <div class="card-image">
+          //       <img class="recipeimage" src="${recipe.image}">
+          //     </div>
+          //     <div class="card-stacked">
+          //       <div class="card-content">
+          //       <ul>`;
+          //   recipe.ingredients.forEach(e => {
+          //     html += `<li class="ingredientsli">${e.text}</li>`;
+          //   });
+          //   html += `</ul>
+          //        <p>Calories:${recipe.calories}</p><br><br>`;
+          //   recipe.healthLabels.forEach(e => (html += `<li>${e}</li>`));
+          //   html += `</div>
+          //       <div class="card-action">
+          //         <a href="#" class="addRecipe">Add to your favorites</a>
+          //       </div>
+          //     </div>
+          //   </div>
+          // </div>`;
+
+          let html = `<div class="row">
+    <div class="col s12 m7">
+      <div class="card">
+        <div class="card-image">
+          <img class="recipeimage"src="${recipe.image}">
+        </div>
+        <div class="card-content">
+          <p><h3 class="recipelabel">${recipe.label}</h3>
+          <ul>`;
           recipe.ingredients.forEach(e => {
             html += `<li class="ingredientsli">${e.text}</li>`;
           });
           html += `</ul>
                <p>Calories:${recipe.calories}</p><br><br>`;
           recipe.healthLabels.forEach(e => (html += `<li>${e}</li>`));
-          html += `</div>
-              <div class="card-action">
+          html+=`</p>
+        </div>
+        <div class="card-action">
                 <a href="#" class="addRecipe">Add to your favorites</a>
               </div>
-            </div>
-          </div>
-        </div>`;
+      </div>
+    </div>
+  </div>`;
+
           document.querySelector(".apiRecipes").innerHTML = html;
         })
         .then(() => {

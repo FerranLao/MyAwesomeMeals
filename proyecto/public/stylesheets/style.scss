@@ -13,8 +13,6 @@
   justify-content: space-around;
 }
 
-
-
 .chartelement {
   padding: 2% 35%;
   width: 100%;
@@ -22,16 +20,16 @@
     label {
       color: black;
       display: flex;
-      justify-content:space-between;
+      justify-content: space-between;
       align-items: center;
-     }
+    }
   }
 }
 .chartimg {
   height: 90px;
 }
-.charth2{
-  text-align: center
+.charth2 {
+  text-align: center;
 }
 @media only screen and (max-width: 820px) {
   .chartimg {
@@ -44,21 +42,19 @@
       label {
         color: black;
         display: flex;
-        justify-content:space-between;
+        justify-content: space-between;
         align-items: center;
-       }
+      }
     }
   }
 
-
-.singleappirecipe{
-  div{
-    .card-content{
-      padding: 5px
+  .singleappirecipe {
+    div {
+      .card-content {
+        padding: 5px;
+      }
     }
   }
-}
-
 }
 .recipescontainer {
   display: flex;
@@ -183,24 +179,24 @@ textarea:invalid {
     }
   }
 }
-.backgroundMain{
-    background-image: url( "https://image.freepik.com/foto-gratis/condimentos-preparar-pasta-italiana_1220-429.jpg");
-    background-size: 100% 100%;
-    background-repeat:no-repeat;
-    position: relative;
-    text-align: center;
-    color: white;
-    width: 100%;
-    height: 85vh
-}
-.backgroundInfo{
-  background-image: url( "https://image.freepik.com/foto-gratis/vegetales-puestos-izquierda-pizarra-negra_1220-685.jpg");
+.backgroundMain {
+  background-image: url("https://image.freepik.com/foto-gratis/condimentos-preparar-pasta-italiana_1220-429.jpg");
   background-size: 100% 100%;
-  background-repeat:no-repeat;
+  background-repeat: no-repeat;
+  position: relative;
+  text-align: center;
+  color: white;
+  width: 100%;
+  height: 85vh;
+}
+.backgroundInfo {
+  background-image: url("https://image.freepik.com/foto-gratis/vegetales-puestos-izquierda-pizarra-negra_1220-685.jpg");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
   position: relative;
   color: white;
   width: 100%;
-  height: 85vh
+  height: 85vh;
 }
 
 .h1index {
@@ -209,22 +205,26 @@ textarea:invalid {
 .h2index {
   font-size: 30pt;
 }
-.h3index{
+.h3index {
   font-size: 24pt;
 }
 
-.textinside h1{
-  font-size: 50px; }
+.textinside h1 {
+  font-size: 50px;
+}
 
 .textinside h2 {
-  font-size: 30pt; }
+  font-size: 30pt;
+}
 
 .textinside h3 {
-  font-size: 24pt; }
-  
-    	.textinside h4{
-  font-size: 14pt; }
-  
+  font-size: 24pt;
+}
+
+.textinside h4 {
+  font-size: 14pt;
+}
+
 .centered {
   display: inline-block;
   position: absolute;
@@ -243,31 +243,39 @@ textarea:invalid {
   justify-content: space-around;
   flex-wrap: wrap;
 }
-.cell{
+.cell {
   border: 1px solid black;
   border-radius: 8px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   color: white;
-    background: pink;
-    width: 28%;
-    margin: 2%;
-    height: 36%; }
-    .cell a {
-      color: white; 
-        text-decoration: none }
-        .material-icons.md-100 { font-size: 100px; }
+  background: pink;
+  width: 28%;
+  margin: 2%;
+  height: 36%;
+}
+.cell a {
+  color: white;
+  text-decoration: none;
+}
+.material-icons.md-100 {
+  font-size: 100px;
+}
 @media only screen and (max-width: 820px) {
-  .textinside  h1{
-    font-size: 24pt; }
- .textinside h2 {
-    font-size: 18pt; }
-	.textinside h3{
-  font-size: 16pt; }
-  	.textinside h4{
-  font-size: 14pt; }
-  .h1index{
+  .textinside h1 {
+    font-size: 24pt;
+  }
+  .textinside h2 {
+    font-size: 18pt;
+  }
+  .textinside h3 {
+    font-size: 16pt;
+  }
+  .textinside h4 {
+    font-size: 14pt;
+  }
+  .h1index {
     font-size: 24pt;
   }
   .h2index {
@@ -287,40 +295,55 @@ textarea:invalid {
     width: 100%;
     height: 40vh;
   }
-}
-.collection-item {
-  height: 35px;
-}
-.backgroundMain{
-  background-image: url( "https://image.freepik.com/foto-gratis/condimentos-preparar-pasta-italiana_1220-429.jpg");
-  background-size: 100% 100%;
-  background-repeat:no-repeat;
-  position: relative;
-  color: white;
-.checklist_container {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: 100%;
-}
-.backgroundInfo{
-  background-image: url( "https://image.freepik.com/foto-gratis/vegetales-puestos-izquierda-pizarra-negra_1220-685.jpg");
-  background-size: 100% 100%;
-  background-repeat:no-repeat;
-  position: relative;
-  color: white;
-  width: 100%;
-  height: 40vh
-}
 
-.cell{
-  width: 45%;
-  margin: 2%;
-  height: 27%;
-}
-}
-.recipescontainer{
-  .card .card-image img{
-    height: 300px
+  .collection-item {
+    height: 35px;
   }
+
+  .checklist_container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+  }
+  .backgroundInfo {
+    background-image: url("https://image.freepik.com/foto-gratis/vegetales-puestos-izquierda-pizarra-negra_1220-685.jpg");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    position: relative;
+    color: white;
+    width: 100%;
+    height: 40vh;
+  }
+
+  .cell {
+    width: 45%;
+    margin: 2%;
+    height: 27%;
+  }
+}
+.recipescontainer {
+  .card .card-image img {
+    height: 300px;
+  }
+}
+.pass-graybar {
+  height: 3px;
+  background-color: #ccc;
+  width: 100%;
+  position: relative;
+}
+.pass-colorbar {
+  height: 3px;
+  background-image: url(/images/passwordstrength.jpg);
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.pass-percent,
+.pass-text {
+  font-size: 1em;
+}
+.pass-percent {
+  margin-right: 5px;
 }
