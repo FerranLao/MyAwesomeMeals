@@ -70,15 +70,15 @@ const randomMeal = () => {
   let API_URL = urlMaker();
   API_URL += "&to=50";
   return axios.get(API_URL).then(res => {
-    console.log(res);
     let html = "";
     const recipe = res.data.hits;
     const random = Math.floor(Math.random() * recipe.length);
-    html = ` <div class="col s12 m7">
+    html = ` <div class="singleappirecipe">
+    <div class="col s12 m7">
     <h2 class="header recipelabel">${recipe[random].recipe.label}</h2>
     <div class="card horizontal">
       <div class="card-image">
-        <img class="recipeimage" src="${recipe[random].recipe.image}">
+        <img class="singlerecipeimage" src="${recipe[random].recipe.image}">
     </div>
       <div class="card-stacked">
         <div class="card-content">
@@ -95,9 +95,10 @@ const randomMeal = () => {
         </div>
       </div>
     </div>
+  </div>
   </div>`;
-       document.querySelector(".apiRecipes").innerHTML = html;
-       addRecipeButton();
+    document.querySelector(".apiRecipes").innerHTML = html;
+    addRecipeButton();
   });
 };
 document.querySelector(".Random").addEventListener("click", randomMeal);

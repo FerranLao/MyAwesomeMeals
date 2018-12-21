@@ -5,8 +5,9 @@
     {{#each menu}}
     <li class="collection-item">
         <div><a href="/logged/seemenus/{{this._id}}">{{this.name}}</a><span style="display:none">{{this._id}}</span><a
-                href="#!" class="secondary-content menudelete"><i class="material-icons">delete this menu</i></a></div>
+                href="#!" class="secondary-content menudelete"><i class="material-icons">delete</i></a></div>
     </li>
     {{/each}}
 </ul>
+<a class="waves-effect waves-light btn-large" href="/logged/newmenu">Create a menu</a>
 <script src="/javascripts/seemenus.js"></script>

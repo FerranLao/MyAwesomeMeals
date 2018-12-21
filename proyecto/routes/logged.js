@@ -189,16 +189,21 @@ router.post(
   "/newingredient",
   [isLoggedIn("/"), uploadCloud.single("photo")],
   (req, res, next) => {
+    let imgPath;
     if (req.file) {
       imgPath = req.file.url;
     } else {
       imgPath =
         " http://happyhormonesforlife.com/wp-content/uploads/2014/05/Grandma-cooking.jpg";
     }
-    const { name } = req.body;
-    const imgPath = req.file.url;
-
-    Ingredients.create({ name, imgPath });
+    let { name } = req.body;
+    name = name[0].toUpperCase() + name.substring(1)
+    console.log(name)
+    Ingredients.findOne({ name }).then(ing => {
+      if (ing == null) {
+        Ingredients.create({ name, imgPath });
+      }
+    });
   }
 );
 

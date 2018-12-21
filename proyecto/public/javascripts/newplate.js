@@ -41,24 +41,28 @@ document.querySelector(".createingbutton").addEventListener("click", e => {
   <div class="row">
   <form class="col s12" action="/logged/newingredient" method="POST" id="form-container" enctype="multipart/form-data">
     <div class="row">
-      <div class="input-field col s6">
+      <div class="input-field col s12">
         <input id="name" type="text" name="name" class="validate">
         <label for="name">Ingredient name</label>
       </div>
+    </div>
+    <div class="row">
       <div class="file-field input-field">
       <div class="btn">
         <span>Add a photo</span>
         <input id="photo" type="file" name="photo" placeholder="Your photo">
       </div>
-      <div class="file-path-wrapper">
-        <input class="file-path validate" type="text">
-      </div>
+        <div class="file-path-wrapper">
+          <input class="file-path validate" type="text">
+        </div>
+     </div>
     </div>
-    </div>
-    <button class="btn waves-effect waves-light" type="submit" name="action">Create Ingredient
+    <button class="btn waves-effect waves-light" type="submit">Create Ingredient
     </button>
     <a class="waves-effect waves-light btn-small undo">^</a>
+    </div>   
   </form>
+  
 </div>`;
   undobtn();
 });
@@ -100,7 +104,7 @@ const printingr = () => {
   <li class="collection-header"><h4>Ingredients</h4></li>`;
   ingredientarr.forEach(e => {
     if (e != undefined) {
-      ingHTML.innerHTML += `<li class="collection-item"><div>${e}<a href="#!" class="secondary-content listdel"><i class="material-icons ">X</i></a></div></li>`;
+      ingHTML.innerHTML += `<li class="collection-item"><div>${e}<a href="#!" class="secondary-content listdel"><i class="material-icons ">close</i></a></div></li>`;
     }
   });
   ingHTML.innerHTML += `</ul>`;

@@ -1,4 +1,6 @@
 <h1>{{name}}</h1>
+<a class="waves-effect waves-light btn-small" href="/logged/charts/{{id}}"><i class="material-icons left">add_shopping_cart</i>view the chart of this menu</a>
+
 <div class="recipescontainer">
 {{#each recipes}}
 <div class="row">
@@ -11,9 +13,9 @@
           <p>{{this.name}}</p>
         </div>
         <div class="card-action">
-            <span style="display:none">{{this._id}}</span>
+          <span style="display:none">{{this._id}}</span>
           <a href="/logged/recipe/{{this._id}}">see this recipe in detail</a>
-          <a class="waves-effect waves-light btn-small reciperemove">Remove from menu</a>
+          <a class="waves-effect waves-light btn-small reciperemove"><i class="material-icons left">delete_forever</i>Remove from menu</a>
         </div>
       </div>
     </div>
