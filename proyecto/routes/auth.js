@@ -70,17 +70,17 @@ router.post("/signup", recaptcha.middleware.verify, (req, res, next) => {
     res.render("auth/signup", { message: "Indicate username and password" });
     return;
   }
-  console.log("continua")
+
   if ( !backCheck(username ,"name") || !backCheck(password, "password") || !backCheck(email, "email")|| !backCheck (phone,"phone")) {
-    console.log("no pasa")
+   
     res.render("auth/signup", { message: "Acces not allowed" });
     return;
   }
-  console.log("pasa")
+ 
   if (!req.recaptcha.error) {
-    User.findOne({ username }, "username", (err, user) => {
+    User.findOne({ $or:[{username},{email}] }, "username", (err, user) => {
       if (user !== null) {
-        res.render("auth/signup", { message: "The username already exists" });
+        res.render("auth/signup", { message: "The username already exists or email in already in use" });
         return;
       }
 
