@@ -160,7 +160,6 @@ router.post("/recover", (req, res, next) => {
         confirmationCode +=
           characters[Math.floor(Math.random() * characters.length)];
       }
-      console.log(confirmationCode);
       User.findOneAndUpdate(
         { username: u.username },
         { recovery: confirmationCode }
@@ -183,8 +182,6 @@ router.post("/recover/:id", (req, res, next) => {
   if (password == "") {
     return res.render("auth/recoverpass", { message: "Insert password" });
   }
-  console.log(id);
-  console.log(password);
   const salt = bcrypt.genSaltSync(bcryptSalt);
   const hashPass = bcrypt.hashSync(password, salt);
   User.findOneAndUpdate(
