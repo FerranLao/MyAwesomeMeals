@@ -74,7 +74,7 @@ router.get("/standarize/:id", isLoggedIn("/"), (req, res, next) => {
 });
 
 router.get("/newmenu", isLoggedIn("/"), (req, res, next) => {
-  Favorite.find()
+  Favorite.find({users:req.user._id})
     .populate("recipes")
     .then(favorites => {
       const recipes = [];
