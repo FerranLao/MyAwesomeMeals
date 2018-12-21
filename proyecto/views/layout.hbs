@@ -1,57 +1,51 @@
-
 <html lang="en">
-
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <meta http-equiv="X-UA-Compatible" content="ie=edge">
- <title>{{title}}</title>
- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
-   crossorigin="anonymous">
- <link rel="stylesheet" href="/stylesheets/style.css" />
- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
- <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
- <script src='https://www.google.com/recaptcha/api.js'></script>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>{{title}}</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+    crossorigin="anonymous">
+  <link rel="stylesheet" href="/stylesheets/style.css" />
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
-
 <body>
   <nav>
     <div class="nav-wrapper">
-      <a href="#!" class="brand-logo">MyAwesomeMeals</a>
+      <a href="/" class="brand-logo">MyAwesomeMeals</a>
       <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
       <ul class="right hide-on-med-and-down">
-       <li><a class="active" href="/info">How it works!</a></li>
-        <li><a class="active" href="/infodevelop">More about MyAwesomeMeals</a></li>
-         <li><a class="active" href="/auth/login">Loggin</a></li>
-        <li><a class="active"  href="/auth/signup">Signup</a></li>
-        <li><a class="active"  href="/auth/logout">Logout</a></li>
-        <li><a class="active" href="/logged/main">Main</a></li>
+        <li><a class="active" href="/info">How it works!</a></li>
+        {{#unless user}}
+        <li><a class="active" href="/auth/login">Loggin</a></li>
+        <li><a class="active" href="/auth/signup">Signup</a></li>
+        {{/unless }}
+        {{#if user}}
+        <li><a class="active" href="/auth/logout">Logout</a></li>
+        <li><a class="active" href="/logged/main">Home</a></li>
+        {{/if }}
       </ul>
     </div>
   </nav>
-
   <ul class="sidenav" id="mobile-demo">
     <li><a class="active" href="/info">How it works!</a></li>
-        <li><a class="active" href="/infodevelop">More about MyAwesomeMeals</a></li>
-      <li><a href="/auth/login">Loggin</a></li>
-        <li><a href="/auth/signup">Signup</a></li>
-        <li><a href="/auth/logout">Logout</a></li>
-        <li><a href="/logged/main">Main</a></li>
+    {{#unless user}}
+    <li><a href="/auth/login">Loggin</a></li>
+    <li><a href="/auth/signup">Signup</a></li>
+    {{/unless }}
+    {{#if user}}
+    <li><a href="/auth/logout">Logout</a></li>
+    <li><a href="/logged/main">Home</a></li>
+    {{/if }}
   </ul>
-
-
-
-
-
   <div class="standarizecontainer">
-  {{{body}}}
+    {{{body}}}
   </div>
   <script src="/javascripts/script.js"></script>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
-
 </html>
