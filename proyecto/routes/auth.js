@@ -36,7 +36,7 @@ router.get("/recover", (req, res) => {
   res.render("auth/recover");
 });
 
-router.get("/recover/:id", (req, res, next) => {
+router.get("/recover/:id", recaptcha.middleware.render, (req, res, next) => {
   console.log(req.params.id);
   const id = req.params.id;
   if (id === "") {
@@ -71,40 +71,50 @@ router.post("/signup", recaptcha.middleware.verify, (req, res, next) => {
     return;
   }
 
-  if ( !backCheck(username ,"name") || !backCheck(password, "password") || !backCheck(email, "email")|| !backCheck (phone,"phone")) {
-   
+  if (
+    !backCheck(username, "name") ||
+    !backCheck(password, "password") ||
+    !backCheck(email, "email") ||
+    !backCheck(phone, "phone")
+  ) {
     res.render("auth/signup", { message: "Acces not allowed" });
     return;
   }
- 
+
   if (!req.recaptcha.error) {
-    User.findOne({ $or:[{username},{email}] }, "username", (err, user) => {
-      if (user !== null) {
-        res.render("auth/signup", { message: "The username already exists or email in already in use" });
-        return;
-      }
-
-      const salt = bcrypt.genSaltSync(bcryptSalt);
-      const hashPass = bcrypt.hashSync(password, salt);
-
-      const newUser = new User({
-        username,
-        password: hashPass,
-        email,
-        phone
-      });
-
-      newUser
-        .save()
-        .then(user => {
-          sendMail(user.email, user._id).then(() => {
-            res.redirect("/");
+    User.findOne(
+      { $or: [{ username }, { email }] },
+      "username",
+      (err, user) => {
+        if (user !== null) {
+          res.render("auth/signup", {
+            message: "The username already exists or email in already in use"
           });
-        })
-        .catch(err => {
-          res.render("auth/signup", { message: "Something went wrong" });
+          return;
+        }
+
+        const salt = bcrypt.genSaltSync(bcryptSalt);
+        const hashPass = bcrypt.hashSync(password, salt);
+
+        const newUser = new User({
+          username,
+          password: hashPass,
+          email,
+          phone
         });
-    });
+
+        newUser
+          .save()
+          .then(user => {
+            sendMail(user.email, user._id).then(() => {
+              res.redirect("/");
+            });
+          })
+          .catch(err => {
+            res.render("auth/signup", { message: "Something went wrong" });
+          });
+      }
+    );
   } else {
     res.render(res.render("auth/signup", { message: "Invalid reCaptcha" }));
   }
@@ -128,7 +138,11 @@ router.post("/editprofile", isLoggedIn("/"), (req, res, next) => {
   if (password != "") {
     edited.password = hashPass;
   }
-  if ( !backCheck(username ,"name") || !backCheck(email, "email")|| !backCheck (phone,"phone")) {
+  if (
+    !backCheck(username, "name") ||
+    !backCheck(email, "email") ||
+    !backCheck(phone, "phone")
+  ) {
     res.render("auth/signup", { message: "Acces not allowed" });
     return;
   }
@@ -176,20 +190,22 @@ router.post("/recover", (req, res, next) => {
   });
 });
 
-router.post("/recover/:id", (req, res, next) => {
+router.post("/recover/:id", recaptcha.middleware.verify, (req, res, next) => {
   const { password } = req.body;
   const { id } = req.params;
-  if (password == "") {
-    return res.render("auth/recoverpass", { message: "Insert password" });
+  if (!req.recaptcha.error) {
+    if (password == "") {
+      return res.render("auth/recoverpass", { message: "Insert password" });
+    }
+    const salt = bcrypt.genSaltSync(bcryptSalt);
+    const hashPass = bcrypt.hashSync(password, salt);
+    User.findOneAndUpdate(
+      { recovery: id },
+      { recovery: "", password: hashPass }
+    ).then(() => res.redirect("/auth/login"));
+  } else {
+    res.render("auth/recoverpass", { message: "captcha failed" });
   }
-  const salt = bcrypt.genSaltSync(bcryptSalt);
-  const hashPass = bcrypt.hashSync(password, salt);
-  User.findOneAndUpdate(
-    { recovery: id },
-    { recovery: "", password: hashPass }
-  ).then(() => res.redirect("/auth/login"));
 });
-
-
 
 module.exports = router;
