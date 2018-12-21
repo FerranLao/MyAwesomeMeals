@@ -1,4 +1,7 @@
-<h2>Loggin</h2>
+<div class="contenedor center">
+    <div class="width100">
+<h2 class="greyh">Recover your password</h2>
+</div>
 <div class="container">
   <form action="/auth/recover" method="POST" id="form-container">
     <div class="row">
@@ -15,9 +18,10 @@
       <div class="error-message">{{ message }}</div>
       {{/if}}
     </div>
-    <div class="row">
-      <input type="submit" value="Recover">
+    <div class="row center">
+      <button class="btn waves-effect waves-light" type="submit" name="action" value="Recover">Recover
     </div>
   
   </form>
+</div>
 </div>

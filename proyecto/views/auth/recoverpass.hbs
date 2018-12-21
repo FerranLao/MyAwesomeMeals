@@ -1,5 +1,7 @@
-
-<h2>Become a member!</h2>
+<div class="contenedor center">
+    <div class="width100">
+<h2 class = "greyh">Insert your new password</h2>
+</div>
 <div class="container">
   <form action="/auth/recover/{{id}}" method="POST" id="form-container">
       <div class="row">
@@ -15,12 +17,14 @@
      {{#if message }}
     <div class="error-message">{{ message }}</div>
   {{/if}}
+  <div class="contenedor center">
   <div class="g-recaptcha" data-sitekey="6LeWAIMUAAAAAFj9ZiNm5kxRbUIjN0dyTFp71hRV"></div>
-    <div class="row">
-      <input type="submit" value="Create account">
+  </div>
+    <div class="row center">
+      <button class="btn waves-effect waves-light" type="submit" name="action" value="Create account">Save New password
     </div>
   </form>
 </div>
-
+</div>
 <script src="/javascripts/password.min.js"></script>
 <script src="/javascripts/passwordStrength.js"></script>

@@ -1,11 +1,12 @@
-<h1>{{name}}</h1>
+<h2 class="charth2">{{name}}</h2>
 <div class="checklist_container">
     {{#each menu}}
-    <div>
+    <div class="chartelement">
         <p>
             <label for="input{{@index}}">
                 <input id="input{{@index}}" type="checkbox" />
-                <span><img src="{{this.imgPath}}">{{this.name}}</span>
+                <span>{{this.name}}</span>
+                <img class="chartimg" src="{{this.imgPath}}">
             </label>
         </p>
     </div>
