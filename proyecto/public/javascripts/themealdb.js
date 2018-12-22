@@ -11,7 +11,7 @@ $(document).ready(function() {
   M.updateTextFields();
 });
 
-const urlMaker = (random) => {
+const urlMaker = random => {
   let max = page * 10;
   let min = max - 10;
   let mainIngredient = document.querySelector(".mainingredient").value;
@@ -20,9 +20,9 @@ const urlMaker = (random) => {
   if (calories == "" && mainIngredient == "" && diet == "none") {
     mainIngredient = "sugar";
   }
-  if(random=="random"){
-    const randarray=["beef","pork","chicken","seafood","fish","pepper"]
-    mainIngredient=randarray[Math.floor(Math.random()*(randarray.length))]
+  if (random == "random") {
+    const randarray = ["beef", "pork", "chicken", "seafood", "fish", "pepper"];
+    mainIngredient = randarray[Math.floor(Math.random() * randarray.length)];
   }
   let baseURL = `https://api.edamam.com/search?q=${mainIngredient}&app_id=${EDAMAN_ID}&app_key=${EDAMAN_KEY}`;
   if (diet != "none") {
@@ -80,7 +80,7 @@ const randomMeal = () => {
   return axios.get(API_URL).then(res => {
     let ranrecipe = res.data.hits;
     const random = Math.floor(Math.random() * ranrecipe.length);
-    printRecipe(ranrecipe[random].recipe)
+    printRecipe(ranrecipe[random].recipe);
   });
 };
 document.querySelector(".Random").addEventListener("click", randomMeal);
@@ -96,7 +96,7 @@ const buttonAdder = () => {
 };
 
 const printRecipe = recipe => {
-  document.querySelector(".nextbackbuttons").innerHTML=""
+  document.querySelector(".nextbackbuttons").innerHTML = "";
   let html = `<div class="row">
 <div class="col s12 m7">
   <div class="card">
