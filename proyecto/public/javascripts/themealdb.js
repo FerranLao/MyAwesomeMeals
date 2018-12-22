@@ -32,7 +32,7 @@ const urlMaker = () => {
 const getMeals = () => {
   let API_URL = urlMaker();
   return axios.get(API_URL).then(res => {
-    console.log(API_URL);
+    console.log(res);
     let html = "";
     res.data.hits.forEach(el => {
       html += ` <div class="row">
