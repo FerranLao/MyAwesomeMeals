@@ -11,7 +11,7 @@ $(document).ready(function() {
   M.updateTextFields();
 });
 
-const urlMaker = () => {
+const urlMaker = (random) => {
   let max = page * 10;
   let min = max - 10;
   let mainIngredient = document.querySelector(".mainingredient").value;
@@ -19,6 +19,10 @@ const urlMaker = () => {
   const calories = document.querySelector(".calories").value;
   if (calories == "" && mainIngredient == "" && diet == "none") {
     mainIngredient = "sugar";
+  }
+  if(random=="random"){
+    const randarray=["beef","pork","chicken","seafood","fish","pepper"]
+    mainIngredient=randarray[Math.floor(Math.random()*(randarray.length))]
   }
   let baseURL = `https://api.edamam.com/search?q=${mainIngredient}&app_id=${EDAMAN_ID}&app_key=${EDAMAN_KEY}`;
   if (diet != "none") {
@@ -71,38 +75,12 @@ const getMeals = () => {
 document.querySelector(".Search").addEventListener("click", getMeals);
 
 const randomMeal = () => {
-  let API_URL = urlMaker();
+  let API_URL = urlMaker("random");
   API_URL += "&to=50";
   return axios.get(API_URL).then(res => {
-    let html = "";
-    const recipe = res.data.hits;
-    const random = Math.floor(Math.random() * recipe.length);
-    html = ` <div class="singleappirecipe">
-    <div class="col s12 m7">
-    <h2 class="header recipelabel">${recipe[random].recipe.label}</h2>
-    <div class="card horizontal">
-      <div class="card-image">
-        <img class="singlerecipeimage" src="${recipe[random].recipe.image}">
-    </div>
-      <div class="card-stacked">
-        <div class="card-content">
-        <ul>`;
-    recipe[random].recipe.ingredients.forEach(e => {
-      html += `<li class="ingredientsli">${e.text}</li>`;
-    });
-    html += `</ul>
-         <p>Calories:${recipe[random].recipe.calories}</p><br><br>`;
-    recipe[random].recipe.healthLabels.forEach(e => (html += `<li>${e}</li>`));
-    html += `</div>
-        <div class="card-action">
-          <a href="#" class="addRecipe">Add to your favorites</a>
-        </div>
-      </div>
-    </div>
-  </div>
-  </div>`;
-    document.querySelector(".apiRecipes").innerHTML = html;
-    addRecipeButton();
+    let ranrecipe = res.data.hits;
+    const random = Math.floor(Math.random() * ranrecipe.length);
+    printRecipe(ranrecipe[random].recipe)
   });
 };
 document.querySelector(".Random").addEventListener("click", randomMeal);
