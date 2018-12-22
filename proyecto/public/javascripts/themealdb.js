@@ -1,6 +1,8 @@
 const EDAMAN_ID = "5940c193";
 const EDAMAN_KEY = "4e1db070e05a46be2e5876d8b1d38516";
 let page = 1;
+let recipe;
+let index = 0;
 
 $(document).ready(function() {
   $("select").formSelect();
@@ -32,7 +34,7 @@ const urlMaker = () => {
 const getMeals = () => {
   let API_URL = urlMaker();
   return axios.get(API_URL).then(res => {
-    console.log(res);
+    recipe = res.data.hits;
     let html = "";
     res.data.hits.forEach(el => {
       html += ` <div class="row">
@@ -42,7 +44,7 @@ const getMeals = () => {
             <img src="${el.recipe.image}">
           </div>
           <div class="card-content">
-            <p>${el.recipe.label}</p>
+            <p>${el.recipe.label}<span style="display:none">${index}</span></p>
           </div>
           <div class="card-action">
             <a  class='seeRecipe' href="#">See this recipe</a>
@@ -50,7 +52,9 @@ const getMeals = () => {
         </div>
       </div>
     </div>`;
+      index++;
     });
+    index = 0;
     const buttonshtml = document.querySelector(".nextbackbuttons");
     buttonshtml.innerHTML = "";
     if (page > 1) {
@@ -106,51 +110,43 @@ document.querySelector(".Random").addEventListener("click", randomMeal);
 const buttonAdder = () => {
   document.querySelectorAll(".seeRecipe").forEach(e => {
     e.addEventListener("click", function(e) {
-      const recipeName = e.target.parentNode.parentNode.querySelector("p");
-
-      const API_URL = `https://api.edamam.com/search?q=${
-        recipeName.innerText
-      }&app_id=${EDAMAN_ID}&app_key=${EDAMAN_KEY}`;
-      axios
-        .get(API_URL)
-        .then(res => {
-          document.querySelector(".nextbackbuttons").innerHTML = "";
-          let recipe;
-          res.data.hits.forEach(e => {
-            if (e.recipe.label.replace("-", " ") == recipeName.innerText) {
-              recipe = e.recipe;
-            }
-          });
-          let html = ` <div class="col s12 m7">
-          <h2 class="header recipelabel">${recipe.label}</h2>
-          <div class="card horizontal">
-            <div class="card-image">
-              <img class="recipeimage" src="${recipe.image}">
-            </div>
-            <div class="card-stacked">
-              <div class="card-content">
-              <ul>`;
-          recipe.ingredients.forEach(e => {
-            html += `<li class="ingredientsli">${e.text}</li>`;
-          });
-          html += `</ul>
-               <p>Calories:${recipe.calories}</p><br><br>`;
-          recipe.healthLabels.forEach(e => (html += `<li>${e}</li>`));
-          html += `</div>
-              <div class="card-action">
-                <a href="#" class="addRecipe">Add to your favorites</a>
-              </div>
-            </div>
-          </div>
-        </div>`;
-          document.querySelector(".apiRecipes").innerHTML = html;
-        })
-        .then(() => {
-          addRecipeButton();
-        });
+      let recindex = e.target.parentNode.parentNode.querySelector("span")
+        .innerText;
+      printRecipe(recipe[recindex].recipe);
     });
   });
 };
+
+const printRecipe = recipe => {
+  document.querySelector(".nextbackbuttons").innerHTML=""
+  let html = `<div class="row">
+<div class="col s12 m7">
+  <div class="card">
+    <div class="card-image">
+      <img class="recipeimage"src="${recipe.image}">
+    </div>
+    <div class="card-content">
+      <p><h3 class="recipelabel">${recipe.label}</h3>
+      <ul>`;
+  recipe.ingredients.forEach(e => {
+    html += `<li class="ingredientsli">${e.text}</li>`;
+  });
+  html += `</ul>
+           <p>Calories:${recipe.calories}</p><br><br>`;
+  recipe.healthLabels.forEach(e => (html += `<li>${e}</li>`));
+  html += `</p>
+    </div>
+    <div class="card-action">
+            <a href="#" class="addRecipe">Add to your favorites</a>
+          </div>
+  </div>
+</div>
+</div>`;
+
+  document.querySelector(".apiRecipes").innerHTML = html;
+  addRecipeButton();
+};
+
 const addRecipeButton = () => {
   document.querySelector(".addRecipe").addEventListener("click", () => {
     const name = document.querySelector(".recipelabel").innerText;

@@ -81,7 +81,10 @@ app.use(
 app.use(flash());
 require("./passport")(app);
 
-
+app.use((req,res,next)=>{
+  res.locals.user = req.user
+  next();
+ })
 
 const index = require("./routes/index");
 app.use("/", index);

@@ -1,22 +1,22 @@
-<div>
+<div class="row">
     <div class="col s12 m7">
-        <h2 class="header recipelabel">{{recipe.name}}</h2>
-        <div class="card horizontal large">
-            <div class="card-image">
-                <img class="recipeimage" src="{{recipe.imgPath}}">
+        <div class="card">
+            <div class="card-image" >
+                <img src="{{recipe.imgPath}}">
             </div>
-            <div class="card-stacked">
-                <div class="card-content">
-                    <ul>
-                        {{#each recipe.tips}}
-                        <li class="ingredientsli">{{this}}</li>
-                        {{/each}}
-                    </ul>
-                </div>
+            <div class="card-content">
+                <h3 class="h3index">{{recipe.name}}</h3>
+                <ul>
+                    {{#each recipe.tips}}
+                    <li class="ingredientsli">{{this}}</li>
+                    {{/each}}
+                </ul>
             </div>
+            
         </div>
     </div>
-    <div>
+</div>
+<div>
         <div class="row">
             <form class="col s12">
                 <div class="row">

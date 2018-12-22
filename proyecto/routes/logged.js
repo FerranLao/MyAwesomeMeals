@@ -84,7 +84,7 @@ router.get("/newmenu", isLoggedIn("/"), (req, res, next) => {
 });
 
 router.get("/seemenus", isLoggedIn("/"), (req, res, next) => {
-  Menu.find().then(menu => {
+  Menu.find({user:req.user._id}).then(menu => {
     res.render("logged/seemenus", { menu });
   });
 });
