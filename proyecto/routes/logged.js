@@ -189,6 +189,7 @@ router.post(
   "/newingredient",
   [isLoggedIn("/"), uploadCloud.single("photo")],
   (req, res, next) => {
+    console.log(req.file)
     let imgPath;
     if (req.file) {
       imgPath = req.file.url;
@@ -198,10 +199,9 @@ router.post(
     }
     let { name } = req.body;
     name = name[0].toUpperCase() + name.substring(1)
-    console.log(name)
     Ingredients.findOne({ name }).then(ing => {
       if (ing == null) {
-        Ingredients.create({ name, imgPath });
+        Ingredients.create({ name, imgPath }).then(()=>res.send("hola"));
       }
     });
   }
