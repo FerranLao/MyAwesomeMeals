@@ -4,8 +4,7 @@ document.querySelectorAll(".addtochart").forEach(e => {
     const name = e.target.parentNode.parentNode.querySelector("p").innerText;
     menu.push(name);
     printmenu()
-    // const list = document.querySelector(".menulist");
-    // list.innerHTML += `<p>${name}</p>`;
+    
   });
 });
 

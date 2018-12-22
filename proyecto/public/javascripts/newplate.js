@@ -34,12 +34,19 @@ document.querySelector(".seachingredient").addEventListener("click", e => {
   });
 });
 
+const inter = (e) => {
+  console.log(e)
+  e.preventDefault()
+  return false
+ //axios.post( "/logged/newingredient", {}).then((data)=>console.log(data))
+}
+
 const createing = document.querySelector(".createing");
 document.querySelector(".createingbutton").addEventListener("click", e => {
   createing.innerHTML = "";
   createing.innerHTML = `
   <div class="row">
-  <form class="col s12" action="/logged/newingredient" method="POST" id="form-container" enctype="multipart/form-data">
+  <form class="col s12" id="form-container"  enctype="multipart/form-data">
     <div class="row">
       <div class="input-field col s12">
         <input id="name" type="text" name="name" class="validate">
@@ -57,7 +64,7 @@ document.querySelector(".createingbutton").addEventListener("click", e => {
         </div>
      </div>
     </div>
-    <button class="btn waves-effect waves-light" type="submit">Create Ingredient
+    <button class="btn waves-effect waves-light"  type="submit">Create Ingredient
     </button>
     <a class="waves-effect waves-light btn-small undo">^</a>
     </div>   
@@ -66,6 +73,8 @@ document.querySelector(".createingbutton").addEventListener("click", e => {
 </div>`;
   undobtn();
 });
+
+//$('#form-container').on("submit", (event)=>{event.preventDefault();inter()});
 
 const undobtn = () => {
   document.querySelector(".undo").addEventListener("click", e => {
