@@ -33,20 +33,33 @@ document.querySelector(".seachingredient").addEventListener("click", e => {
     });
   });
 });
+//
+const createing = document.querySelector(".createing");
 
-const inter = (e) => {
-  console.log(e)
-  e.preventDefault()
-  return false
- //axios.post( "/logged/newingredient", {}).then((data)=>console.log(data))
+const inter = ()=>{
+  console.log( document.querySelector("#newing"))
+  document.querySelector("#newing").addEventListener("click",(e)=>{
+
+    e.preventDefault()
+    const name = document.querySelector("#name").value
+    let file = new FormData()
+    let imagefile = $("#photo").get(0).files
+    file.set("name",name)
+    file.append('photo', imagefile[0])
+    axios.post("/logged/newingredient",file,{headers:{"Content-Type":"multipart/form-data"}}).then(()=>{
+      document.querySelector("#ingredients").value=document.querySelector("#name").value
+      createing.innerHTML=""
+    })
+    
+  })
+
 }
 
-const createing = document.querySelector(".createing");
 document.querySelector(".createingbutton").addEventListener("click", e => {
   createing.innerHTML = "";
   createing.innerHTML = `
   <div class="row">
-  <form class="col s12" id="form-container"  enctype="multipart/form-data">
+  <form class="col s12"  id="form-container" >
     <div class="row">
       <div class="input-field col s12">
         <input id="name" type="text" name="name" class="validate">
@@ -64,7 +77,7 @@ document.querySelector(".createingbutton").addEventListener("click", e => {
         </div>
      </div>
     </div>
-    <button class="btn waves-effect waves-light"  type="submit">Create Ingredient
+    <button class="btn waves-effect waves-light" id="newing" type="submit">Create Ingredient
     </button>
     <a class="waves-effect waves-light btn-small undo">^</a>
     </div>   
@@ -72,9 +85,9 @@ document.querySelector(".createingbutton").addEventListener("click", e => {
   
 </div>`;
   undobtn();
+  inter()
 });
 
-//$('#form-container').on("submit", (event)=>{event.preventDefault();inter()});
 
 const undobtn = () => {
   document.querySelector(".undo").addEventListener("click", e => {
